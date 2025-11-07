@@ -10,7 +10,7 @@ LINKING = -lglut -lGL -lGLU
 TARGET = *
 
 all:
-	$(CXX) $(CFLAGS) -o trabalhocg $(TARGET).cpp $(LINKING)
+	$(CXX) $(CFLAGS) -o trabalhocg src/$(TARGET).cpp $(LINKING)
 
 run:
 	make all
