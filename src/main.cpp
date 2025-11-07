@@ -14,11 +14,37 @@ using namespace tinyxml2;
 const GLint WINDOWS_SIZE = 500;
 int keyStatus[256];
 
+void renderScene(void) {
+    // Clear the screen.
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    /** aqui eu tenho que fazer os objetos */
+
+    glutSwapBuffers(); // Desenha the new frame of the game.
+}
+
+void keyup(unsigned char key, int x, int y) {
+    keyStatus[(int)(key)] = 0;
+    glutPostRedisplay();
+}
+
 void ResetKeyStatus() {
     for(int i = 0; i < 256; i++) keyStatus[i] = 0; 
 }
 
-void init(void) { }
+void init(void) {
+    ResetKeyStatus();
+    // The color the windows will redraw. Its done to erase the previous frame.
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
+ 
+    glMatrixMode(GL_PROJECTION);
+    glOrtho(-(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),
+            -(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),
+            -100, 100);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+      
+}
 
 int main(int argc, char *argv[]) {
     glutInit(&argc, argv);
@@ -28,7 +54,10 @@ int main(int argc, char *argv[]) {
     glutInitWindowSize(WINDOWS_SIZE, WINDOWS_SIZE);
     glutInitWindowPosition(800, 150);
     glutCreateWindow("Tranformations 2D");
- 
+
+    /** callbacks */
+    glutDisplayFunc(renderScene);
+
     init();
 
     glutMainLoop();
