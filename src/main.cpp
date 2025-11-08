@@ -42,20 +42,6 @@ void ResetKeyStatus() {
     for(int i = 0; i < 256; i++) keyStatus[i] = 0; 
 }
 
-void init(void) {
-    ResetKeyStatus();
-    // The color the windows will redraw. Its done to erase the previous frame.
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
- 
-    glMatrixMode(GL_PROJECTION);
-    glOrtho(-(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),
-            -(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),
-            -100, 100);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    
-}
-
 void parse() {
     XMLDocument doc;    XMLError eResult = doc.LoadFile("arena.svg");
 
@@ -66,9 +52,9 @@ void parse() {
 
     XMLElement* circulo = root->FirstChildElement("circle");
     while (circulo != nullptr) {
-        float cx = 0;
-        float cy = 0;
-        float r = 0;
+        GLfloat cx = 0;
+        GLfloat cy = 0;
+        GLfloat r = 0;
 
         circulo->QueryFloatAttribute("cx", &cx);
         circulo->QueryFloatAttribute("cy", &cy);
@@ -83,15 +69,30 @@ void parse() {
             mapa = new Map(cx, cy, r, 0, 0, 1);
 
         } else if (fill == "green" ) { /** p1 */
-            p1 = new Character();
+            // p1 = new Character();
 
         } else if (fill == "red") { /** *p2 */
-            p2 = new Character();
+            // p2 = new Character();
         } 
  
 
         circulo = circulo->NextSiblingElement("circle");
     }
+}
+
+void init(void) {
+    ResetKeyStatus();
+    // The color the windows will redraw. Its done to erase the previous frame.
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
+ 
+    glMatrixMode(GL_PROJECTION);
+    glOrtho(-(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),
+            -(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),
+            -100, 100);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    parse();
 }
 
 int main(int argc, char *argv[]) {
