@@ -12,14 +12,13 @@ class Map {
     GLfloat R, G, B;
     Character *p1, *p2;
 
-
-
 private:
-void drawCircle();
-void drawMap();
+    void drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    void drawMap();
 
 public:
-    Map(GLfloat x, GLfloat y, GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    Map(Pos *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    void draw() { this->drawMap(); }
     void addObstaculos();
     void setP1(Character p1);
     void setP2(Character p2);

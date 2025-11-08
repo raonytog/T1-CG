@@ -14,7 +14,7 @@ all:
 
 run:
 	make all
-	./trabalhocg
+	./trabalhocg arena.svg
 
 clean:
 	$(RM) $(TARGET)

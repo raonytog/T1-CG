@@ -12,12 +12,10 @@ private:
 
 
 public:
-    Pos(GLfloat X, GLfloat Y);
+    Pos(GLfloat x, GLfloat y) { this->x = x; this->y = y; }
     GLfloat getX() { return this->x; }
     GLfloat getY() { return this->y; }
-    GLfloat getDistancePoins(Pos *a, Pos *b) { 
-        return sqrt( pow((a->getX() - b->getX()),2) + pow((a->getY(), b->getY()),2)); 
-    }
+    GLfloat getDistancePoints(Pos *a, Pos *b) { return sqrt(pow((a->getX() - b->getX()), 2) + pow((a->getY() - b->getY()), 2)); }
 };
 
 #endif

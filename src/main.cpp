@@ -28,7 +28,7 @@ void renderScene(void) {
     // Clear the screen.
     glClear(GL_COLOR_BUFFER_BIT);
 
-    /** aqui eu tenho que fazer os objetos */
+    mapa->draw();
 
     glutSwapBuffers(); // Desenha the new frame of the game.
 }
@@ -42,8 +42,8 @@ void ResetKeyStatus() {
     for(int i = 0; i < 256; i++) keyStatus[i] = 0; 
 }
 
-void parse() {
-    XMLDocument doc;    XMLError eResult = doc.LoadFile("arena.svg");
+void parse(const char *svgPath) {
+    XMLDocument doc;    XMLError eResult = doc.LoadFile(svgPath);
 
     if (eResult != XML_SUCCESS) { std::cerr << "Error to load svg file: " << doc.ErrorStr() << std::endl; return; }
 
@@ -62,11 +62,13 @@ void parse() {
         string id = circulo->Attribute("id");
         string fill = circulo->Attribute("fill");
 
+        Pos *pos = new Pos(cx, cy);
+
         if (fill == "black") { /* obstaculo*/
             
 
-        } else if (fill == "azul") { /** mapa */
-            mapa = new Map(cx, cy, r, 0, 0, 1);
+        } else if (fill == "blue") { /** mapa */
+            mapa = new Map(pos, r, 0, 0, 1);
 
         } else if (fill == "green" ) { /** p1 */
             // p1 = new Character();
@@ -80,7 +82,7 @@ void parse() {
     }
 }
 
-void init(void) {
+void init(const char *svgPath) {
     ResetKeyStatus();
     // The color the windows will redraw. Its done to erase the previous frame.
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
@@ -92,7 +94,7 @@ void init(void) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    parse();
+    parse(svgPath);
 }
 
 int main(int argc, char *argv[]) {
@@ -107,7 +109,7 @@ int main(int argc, char *argv[]) {
     /** callbacks */
     glutDisplayFunc(renderScene);
 
-    init();
+    init(argv[1]);
 
     glutMainLoop();
  
