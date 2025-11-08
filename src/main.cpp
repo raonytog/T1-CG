@@ -7,8 +7,18 @@
 
 #include <iostream>
 #include <string>
-#include "../includes/tinyxml2.h" // Não se esqueça de incluir
+using namespace std;
+
+#include "../includes/tinyxml2.h"
 using namespace tinyxml2;
+
+#include "../includes/map.h"
+#include "../includes/character.h"
+#include "../includes/shot.h"
+
+Map *mapa = nullptr;
+Character *p1 = nullptr,
+          *p2 = nullptr;
 
 
 const GLint WINDOWS_SIZE = 500;
@@ -43,7 +53,45 @@ void init(void) {
             -100, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-      
+    
+}
+
+void parse() {
+    XMLDocument doc;    XMLError eResult = doc.LoadFile("arena.svg");
+
+    if (eResult != XML_SUCCESS) { std::cerr << "Error to load svg file: " << doc.ErrorStr() << std::endl; return; }
+
+    XMLElement* root = doc.FirstChildElement("svg");
+    if (root == nullptr) { std::cerr << "<svg> tag not found." << std::endl; return; }
+
+    XMLElement* circulo = root->FirstChildElement("circle");
+    while (circulo != nullptr) {
+        float cx = 0;
+        float cy = 0;
+        float r = 0;
+
+        circulo->QueryFloatAttribute("cx", &cx);
+        circulo->QueryFloatAttribute("cy", &cy);
+        circulo->QueryFloatAttribute("r", &r);
+        string id = circulo->Attribute("id");
+        string fill = circulo->Attribute("fill");
+
+        if (fill == "black") { /* obstaculo*/
+            
+
+        } else if (fill == "azul") { /** mapa */
+            mapa = new Map(cx, cy, r, 0, 0, 1);
+
+        } else if (fill == "green" ) { /** p1 */
+            p1 = new Character();
+
+        } else if (fill == "red") { /** *p2 */
+            p2 = new Character();
+        } 
+ 
+
+        circulo = circulo->NextSiblingElement("circle");
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -62,39 +110,5 @@ int main(int argc, char *argv[]) {
 
     glutMainLoop();
  
-    return 0;
-}
-
-int parse() {
-    XMLDocument doc;
-    XMLError eResult = doc.LoadFile("arena.svg");
-
-    if (eResult != XML_SUCCESS) { std::cerr << "Error to load svg file: " << doc.ErrorStr() << std::endl; return 1; }
-
-    XMLElement* root = doc.FirstChildElement("svg");
-    if (root == nullptr) { std::cerr << "<svg> tag not found." << std::endl; return 1; }
-
-    XMLElement* circulo = root->FirstChildElement("circle");
-    while (circulo != nullptr) {
-        float cx = 0;
-        float cy = 0;
-        float r = 0;
-
-        circulo->QueryFloatAttribute("cx", &cx);
-        circulo->QueryFloatAttribute("cy", &cy);
-        circulo->QueryFloatAttribute("r", &r);
-        const char* id = circulo->Attribute("id");
-        const char* fill = circulo->Attribute("fill");
-
-        std::cout << "Circulo encontrado:" << std::endl;
-        std::cout << "  ID: " << id << std::endl;
-        std::cout << "  Cor: " << fill << std::endl;
-        std::cout << "  Centro (cx, cy): (" << cx << ", " << cy << ")" << std::endl;
-        std::cout << "  Raio (r): " << r << std::endl;
-        std::cout << "---" << std::endl;
-
-        circulo = circulo->NextSiblingElement("circle");
-    }
-
     return 0;
 }
