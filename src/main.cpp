@@ -20,12 +20,10 @@ Map *mapa = nullptr;
 Character *p1 = nullptr,
           *p2 = nullptr;
 
-
 const GLint WINDOWS_SIZE = 500;
 int keyStatus[256];
 
 void renderScene(void) {
-    // Clear the screen.
     glClear(GL_COLOR_BUFFER_BIT);
 
     mapa->draw();
@@ -84,8 +82,7 @@ void parse(const char *svgPath) {
 
 void init(const char *svgPath) {
     ResetKeyStatus();
-    // The color the windows will redraw. Its done to erase the previous frame.
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black, no opacity(alpha).
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
  
     glMatrixMode(GL_PROJECTION);
     glOrtho(-(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),

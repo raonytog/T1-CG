@@ -15,7 +15,7 @@ void Map::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     glPointSize(1.0);
     glColor3f(R, G, B);
     
-    glBegin(GL_POINTS);
+    glBegin(GL_POLYGON);
         for(double i = 0; i < 2*M_PI; i+= M_PI/24) {
             float x = radius * cos(i);
             float y = radius * sin(i);
