@@ -48,19 +48,18 @@ void parse(const char *svgPath) {
     XMLElement* root = doc.FirstChildElement("svg");
     if (root == nullptr) { std::cerr << "<svg> tag not found." << std::endl; return; }
 
-    XMLElement* circulo = root->FirstChildElement("circle");
-    while (circulo != nullptr) {
-        GLfloat cx = 0;
-        GLfloat cy = 0;
-        GLfloat r = 0;
+    XMLElement* elemento = root->FirstChildElement("circle");
+    while (elemento != nullptr) {
+        GLfloat cx, cy, r;
+        cx = cy = r = 0;
 
-        circulo->QueryFloatAttribute("cx", &cx);
-        circulo->QueryFloatAttribute("cy", &cy);
-        circulo->QueryFloatAttribute("r", &r);
-        string id = circulo->Attribute("id");
-        string fill = circulo->Attribute("fill");
+        elemento->QueryFloatAttribute("cx", &cx);
+        elemento->QueryFloatAttribute("cy", &cy);
+        elemento->QueryFloatAttribute("r", &r);
+        string id = elemento->Attribute("id");
+        string fill = elemento->Attribute("fill");
 
-        Pos *pos = new Pos(cx, cy);
+        Position *pos = new Position(cx, cy);
 
         if (fill == "black") { /* obstaculo*/
             
@@ -74,9 +73,8 @@ void parse(const char *svgPath) {
         } else if (fill == "red") { /** *p2 */
             // p2 = new Character();
         } 
- 
 
-        circulo = circulo->NextSiblingElement("circle");
+        elemento = elemento->NextSiblingElement("circle");
     }
 }
 

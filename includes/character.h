@@ -4,11 +4,13 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "position.h"
 #include "shot.h"
 
 class Character {
-    GLfloat x, y;
+    Position *center;
     GLfloat R,G,B;
+    GLint radius;
 
 private:
     void drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B);
@@ -18,11 +20,11 @@ private:
     void drawCharacter();
 
 public:
-    Character(GLfloat x, GLfloat y, GLint radius, GLfloat R, GLfloat G, GLfloat B) { this->x = x; this->y = y; }
-    void draw() { this->drawCharacter(); }
+    Character(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    void draw();
     void walk(GLfloat dx, GLfloat dy);
-    GLfloat getX() { return this->x; }
-    GLfloat getY() { return this->y; }
+    GLfloat getX();
+    GLfloat getY();
 };
 
 #endif

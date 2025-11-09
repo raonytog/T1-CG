@@ -4,24 +4,34 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+using namespace std;
+#include <list>
+
+/** arquivos autorais */
 #include "character.h"
-#include "pos.h"
+#include "position.h"
+#include "obstacle.h"
 class Map {
     GLint radius;
-    Pos *posicao;
+    Position *center;
     GLfloat R, G, B;
     Character *p1, *p2;
-
+    list<Obstacle*> *obstaculos;
+    
 private:
     void drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    void drawBase();
+    void drawObstacles();
+    void drawCharacters();
     void drawMap();
 
 public:
-    Map(Pos *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
-    void draw() { this->drawMap(); }
-    void addObstaculos();
-    void setP1(Character p1);
-    void setP2(Character p2);
+    Map(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    void draw();
+    void addObstacle(Obstacle *obstacle);
+    void addObstacleList(list<Obstacle*> *obstacleList);
+    void setP1(Character *p1);
+    void setP2(Character *p2);
 
 };
 

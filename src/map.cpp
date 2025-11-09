@@ -1,16 +1,7 @@
 #include "../includes/map.h"
-#include "../includes/pos.h"
+#include "../includes/position.h"
 
-Map::Map(Pos *center, GLint radius, GLfloat R, GLfloat G, GLfloat B) {
-    this->posicao = center;
-    this->radius = radius;
-    this->R = R;
-    this->G = G;
-    this->B = B;
-    this->p1 = nullptr; 
-    this->p2 = nullptr;
-}
-
+/** PRIVATE METHODS */
 void Map::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     glPointSize(1.0);
     glColor3f(R, G, B);
@@ -24,23 +15,65 @@ void Map::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     glEnd();
 }
 
+void Map::drawBase() {
+    glTranslatef(this->center->getX(), this->center->getY(), 0);
+    this->drawCircle(this->radius, this->R, this->G, this->B);
+}
+
+void Map::drawObstacles() {
+    for (Obstacle *ob : *this->obstaculos) {
+        ob->draw();
+    }
+}
+
+void Map::drawCharacters() {
+    this->p1->draw();
+    this->p2->draw();
+}
+
 void Map::drawMap() {
     glPushMatrix();
-    
-    glTranslatef(this->posicao->getX(), this->posicao->getY(), 0);
-    this->drawCircle(this->radius, this->R, this->G, this->B);
 
+    this->drawBase();
+    // this->drawObstacles();
+    
     glPopMatrix();
 }
 
-void Map::addObstaculos() {
+void Map::draw() { this->drawMap(); }
 
+/** PUBLIC METHODS */
+Map::Map(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B) {
+    this->center = center;
+    this->radius = radius;
+
+    this->R = R;
+    this->G = G;
+    this->B = B;
+
+    this->p1 = nullptr; 
+    this->p2 = nullptr;
+    this->obstaculos = new list<Obstacle*>();
 }
 
-void Map::setP1(Character p1) {
-
+void Map::addObstacle(Obstacle *obstacle) {
+    if (obstacle == nullptr) return;
+    this->obstaculos->push_back(obstacle);
 }
 
-void Map::setP2(Character p2) {
+void Map::addObstacleList(list<Obstacle*> *obstacleList) {
+    if (obstacleList == nullptr) return;
+    for (Obstacle* obs : *obstacleList) {
+        this->obstaculos->push_back(obs);
+    }
+}
 
+void Map::setP1(Character *p1) {
+    if (p1 == nullptr) return;
+    this->p1 = p1;
+}
+
+void Map::setP2(Character *p2) {
+    if (p2 == nullptr) return;
+    this->p2 = p2;
 }
