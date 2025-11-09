@@ -19,6 +19,7 @@ using namespace tinyxml2;
 Map *mapa = nullptr;
 Character *p1 = nullptr,
           *p2 = nullptr;
+list<Obstacle*> *obstaculos = nullptr;
 
 const GLint WINDOWS_SIZE = 500;
 int keyStatus[256];
@@ -37,7 +38,9 @@ void keyup(unsigned char key, int x, int y) {
 }
 
 void ResetKeyStatus() {
-    for(int i = 0; i < 256; i++) keyStatus[i] = 0; 
+    for(int i = 0; i < 256; i++) {
+        keyStatus[i] = 0; 
+    }
 }
 
 void parse(const char *svgPath) {
@@ -50,22 +53,24 @@ void parse(const char *svgPath) {
 
     XMLElement* elemento = root->FirstChildElement("circle");
     while (elemento != nullptr) {
-        GLfloat cx, cy, r;
-        cx = cy = r = 0;
+        GLfloat centerX, centerY, radius;
+        centerX = centerY = radius = 0;
 
-        elemento->QueryFloatAttribute("cx", &cx);
-        elemento->QueryFloatAttribute("cy", &cy);
-        elemento->QueryFloatAttribute("r", &r);
+        elemento->QueryFloatAttribute("cx", &centerX);
+        elemento->QueryFloatAttribute("cy", &centerY);
+        elemento->QueryFloatAttribute("r", &radius);
         string id = elemento->Attribute("id");
         string fill = elemento->Attribute("fill");
 
-        Position *pos = new Position(cx, cy);
+        Position *pos = new Position(centerX, centerY);
 
         if (fill == "black") { /* obstaculo*/
-            
+            obstaculos->push_back( new Obstacle(pos, radius, 0,0,0) );
 
         } else if (fill == "blue") { /** mapa */
-            mapa = new Map(pos, r, 0, 0, 1);
+            delete pos;
+            Position *center = new Position(0, 0);
+            mapa = new Map(center, radius, 0,0,1);
 
         } else if (fill == "green" ) { /** p1 */
             // p1 = new Character();
@@ -76,20 +81,24 @@ void parse(const char *svgPath) {
 
         elemento = elemento->NextSiblingElement("circle");
     }
+    mapa->addObstacleList(obstaculos);
 }
 
 void init(const char *svgPath) {
     ResetKeyStatus();
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+    parse(svgPath);
+    GLfloat cx = mapa->getCenter()->getX();
+    GLfloat cy = mapa->getCenter()->getY();
+    GLfloat r = mapa->getRadius();
  
     glMatrixMode(GL_PROJECTION);
-    glOrtho(-(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),
-            -(WINDOWS_SIZE/2), (WINDOWS_SIZE/2),
+    glOrtho(cx-r, cx+r,
+            cy+r, cy-r,
             -100, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    parse(svgPath);
 }
 
 int main(int argc, char *argv[]) {

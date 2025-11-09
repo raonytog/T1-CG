@@ -30,8 +30,14 @@ public:
     void draw();
     void addObstacle(Obstacle *obstacle);
     void addObstacleList(list<Obstacle*> *obstacleList);
+    /** getters */
+    GLint getRadius();
+    Position* getCenter();
+
+    /** setters */
     void setP1(Character *p1);
     void setP2(Character *p2);
+
 
 };
 

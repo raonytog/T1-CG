@@ -21,8 +21,8 @@ void Map::drawBase() {
 }
 
 void Map::drawObstacles() {
-    for (Obstacle *ob : *this->obstaculos) {
-        ob->draw();
+    for (Obstacle *obstaculo : *this->obstaculos) {
+        obstaculo->draw();
     }
 }
 
@@ -35,7 +35,7 @@ void Map::drawMap() {
     glPushMatrix();
 
     this->drawBase();
-    // this->drawObstacles();
+    this->drawObstacles();
     
     glPopMatrix();
 }
@@ -64,8 +64,16 @@ void Map::addObstacle(Obstacle *obstacle) {
 void Map::addObstacleList(list<Obstacle*> *obstacleList) {
     if (obstacleList == nullptr) return;
     for (Obstacle* obs : *obstacleList) {
-        this->obstaculos->push_back(obs);
+        this->addObstacle(obs);
     }
+}
+
+GLint Map::getRadius() {
+    return this->radius;
+}
+
+Position* Map::getCenter() {
+    return this->center;
 }
 
 void Map::setP1(Character *p1) {
