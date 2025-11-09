@@ -16,8 +16,12 @@ void Map::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
 }
 
 void Map::drawBase() {
+    glPushMatrix();
+
     glTranslatef(this->center->getX(), this->center->getY(), 0);
     this->drawCircle(this->radius, this->R, this->G, this->B);
+
+    glPopMatrix();
 }
 
 void Map::drawObstacles() {
@@ -36,11 +40,14 @@ void Map::drawMap() {
 
     this->drawBase();
     this->drawObstacles();
+    this->drawCharacters();
     
     glPopMatrix();
 }
 
-void Map::draw() { this->drawMap(); }
+void Map::draw() {
+    this->drawMap();
+}
 
 /** PUBLIC METHODS */
 Map::Map(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B) {
@@ -76,12 +83,8 @@ Position* Map::getCenter() {
     return this->center;
 }
 
-void Map::setP1(Character *p1) {
-    if (p1 == nullptr) return;
+void Map::setCharacters(Character *p1, Character *p2) {
+    if (p1 == nullptr or p2 == nullptr) return;
     this->p1 = p1;
-}
-
-void Map::setP2(Character *p2) {
-    if (p2 == nullptr) return;
     this->p2 = p2;
 }

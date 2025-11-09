@@ -23,8 +23,11 @@ public:
     Character(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
     void draw();
     void walk(GLfloat dx, GLfloat dy);
-    GLfloat getX();
-    GLfloat getY();
+
+    /** getters */
+    Position* getCenter();
+    GLint getRadius();
+
 };
 
 #endif

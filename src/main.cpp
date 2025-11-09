@@ -19,7 +19,7 @@ using namespace tinyxml2;
 Map *mapa = nullptr;
 Character *p1 = nullptr,
           *p2 = nullptr;
-list<Obstacle*> *obstaculos = nullptr;
+list<Obstacle*> *obstaculos = new list<Obstacle*>();
 
 const GLint WINDOWS_SIZE = 500;
 int keyStatus[256];
@@ -64,24 +64,15 @@ void parse(const char *svgPath) {
 
         Position *pos = new Position(centerX, centerY);
 
-        if (fill == "black") { /* obstaculo*/
-            obstaculos->push_back( new Obstacle(pos, radius, 0,0,0) );
-
-        } else if (fill == "blue") { /** mapa */
-            delete pos;
-            Position *center = new Position(0, 0);
-            mapa = new Map(center, radius, 0,0,1);
-
-        } else if (fill == "green" ) { /** p1 */
-            // p1 = new Character();
-
-        } else if (fill == "red") { /** *p2 */
-            // p2 = new Character();
-        } 
+        if (fill == "black")      { obstaculos->push_back( new Obstacle(pos, radius, 0,0,0) ); } /* obstaculo*/
+        else if (fill == "blue")  { mapa = new Map(pos, radius, 0,0,1); }     /** mapa */
+        else if (fill == "green") { p1 = new Character(pos, radius, 0,1,0); } /** p1 */ 
+        else if (fill == "red")   { p2 = new Character(pos, radius, 1,0,0); }  /** *p2 */
 
         elemento = elemento->NextSiblingElement("circle");
     }
     mapa->addObstacleList(obstaculos);
+    mapa->setCharacters(p1, p2);
 }
 
 void init(const char *svgPath) {

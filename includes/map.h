@@ -35,8 +35,7 @@ public:
     Position* getCenter();
 
     /** setters */
-    void setP1(Character *p1);
-    void setP2(Character *p2);
+    void setCharacters(Character *p1, Character *p2);
 
 
 };
