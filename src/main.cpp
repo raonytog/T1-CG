@@ -96,8 +96,13 @@ void ResetKeyStatus() {
 void idle(void) {
     if (keyStatus[(int)('w')]) { p1->walk(0, +INC_KEY); }
     if (keyStatus[(int)('s')]) { p1->walk(0, -INC_KEY); }
-    if (keyStatus[(int)('a')]) { }
-    if (keyStatus[(int)('d')]) { }
+    if (keyStatus[(int)('a')]) { p1->walk(-INC_KEY, 0); }
+    if (keyStatus[(int)('d')]) { p1->walk(+INC_KEY, 0); }
+
+    if (keyStatus[(int)('o')]) { p2->walk(0, +INC_KEY); }
+    if (keyStatus[(int)('l')]) { p2->walk(0, -INC_KEY); }
+    if (keyStatus[(int)('k')]) { p2->walk(-INC_KEY, 0); }
+    if (keyStatus[(int)('ç')]) { p2->walk(+INC_KEY, 0); }
 
     glutPostRedisplay();
 }
