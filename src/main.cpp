@@ -46,37 +46,44 @@ void keyPress(unsigned char key, int x, int y) {
         case 'w':
         case 'W':
             keyStatus[(int)('w')] = 1;
-            p1->walk(0, +INC_KEY);
+            break;
 
         case 'a':
         case 'A':
             keyStatus[(int)('a')] = 1;
+            break;
 
         case 's':
         case 'S':
             keyStatus[(int)('s')] = 1;
+            break;
 
         case 'd':
         case 'D':
             keyStatus[(int)('d')] = 1;
+            break;
 
         /** player 2 */
         /** movimentacao */
         case 'o':
         case 'O':
             keyStatus[(int)('o')] = 1;
+            break;
 
         case 'k':
         case 'K':
             keyStatus[(int)('k')] = 1;
+            break;
 
         case 'l':
         case 'L':
             keyStatus[(int)('l')] = 1;
+            break;
 
         case 'ç':
         case 'Ç':
             keyStatus[(int)('ç')] = 1;
+            break;
     }
 }
 
@@ -86,7 +93,12 @@ void ResetKeyStatus() {
     }
 }
 
-void idle(void) {    
+void idle(void) {
+    if (keyStatus[(int)('w')]) { p1->walk(0, +INC_KEY); }
+    if (keyStatus[(int)('s')]) { p1->walk(0, -INC_KEY); }
+    if (keyStatus[(int)('a')]) { }
+    if (keyStatus[(int)('d')]) { }
+
     glutPostRedisplay();
 }
 
@@ -150,6 +162,9 @@ int main(int argc, char *argv[]) {
 
     /** callbacks */
     glutDisplayFunc(renderScene);
+    glutKeyboardFunc(keyPress);
+    glutIdleFunc(idle);
+    glutKeyboardUpFunc(keyup);
 
     init(argv[1]);
 

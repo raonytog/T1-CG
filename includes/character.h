@@ -24,6 +24,7 @@ public:
     Character(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
     void draw();
     void walk(GLfloat dx, GLfloat dy);
+    void rotateHead(GLfloat inc);
 
     /** getters */
     Position* getCenter();

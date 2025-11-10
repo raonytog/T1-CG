@@ -71,8 +71,13 @@ void Character::draw() {
 }
 
 void Character::walk(GLfloat dx, GLfloat dy) {
-    this->getCenter()->setX(dx);
-    this->getCenter()->setY(dy);
+    Position *center = this->getCenter();
+    center->setX(center->getX() + dx);
+    center->setY(center->getY() + dy);
+}
+
+void Character::rotateHead(GLfloat inc) {
+    this->direction += inc;
 }
 
 Position* Character::getCenter() {
