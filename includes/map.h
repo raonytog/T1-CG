@@ -16,7 +16,7 @@ class Map {
     Position *center;
     GLfloat R, G, B;
     Character *p1, *p2;
-    list<Obstacle*> *obstaculos;
+    list<Obstacle*> *obstacles;
     
 private:
     void drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B);
@@ -33,6 +33,9 @@ public:
     /** getters */
     GLint getRadius();
     Position* getCenter();
+    Character* getPlayerOne();
+    Character* getPlayerTwo();
+    list<Obstacle*>* getObstacles();
 
     /** setters */
     void setCharacters(Character *p1, Character *p2);

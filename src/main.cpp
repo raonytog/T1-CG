@@ -16,6 +16,8 @@ using namespace tinyxml2;
 #include "../includes/character.h"
 #include "../includes/shot.h"
 
+#define INC_KEY 10
+
 Map *mapa = nullptr;
 Character *p1 = nullptr,
           *p2 = nullptr;
@@ -37,10 +39,55 @@ void keyup(unsigned char key, int x, int y) {
     glutPostRedisplay();
 }
 
+void keyPress(unsigned char key, int x, int y) {
+    switch (key) {
+        /** player 1 */
+        /** movimentacao */
+        case 'w':
+        case 'W':
+            keyStatus[(int)('w')] = 1;
+            p1->walk(0, +INC_KEY);
+
+        case 'a':
+        case 'A':
+            keyStatus[(int)('a')] = 1;
+
+        case 's':
+        case 'S':
+            keyStatus[(int)('s')] = 1;
+
+        case 'd':
+        case 'D':
+            keyStatus[(int)('d')] = 1;
+
+        /** player 2 */
+        /** movimentacao */
+        case 'o':
+        case 'O':
+            keyStatus[(int)('o')] = 1;
+
+        case 'k':
+        case 'K':
+            keyStatus[(int)('k')] = 1;
+
+        case 'l':
+        case 'L':
+            keyStatus[(int)('l')] = 1;
+
+        case 'ç':
+        case 'Ç':
+            keyStatus[(int)('ç')] = 1;
+    }
+}
+
 void ResetKeyStatus() {
     for(int i = 0; i < 256; i++) {
         keyStatus[i] = 0; 
     }
+}
+
+void idle(void) {    
+    glutPostRedisplay();
 }
 
 void parse(const char *svgPath) {

@@ -25,7 +25,7 @@ void Map::drawBase() {
 }
 
 void Map::drawObstacles() {
-    for (Obstacle *obstaculo : *this->obstaculos) {
+    for (Obstacle *obstaculo : *this->obstacles) {
         obstaculo->draw();
     }
 }
@@ -60,12 +60,12 @@ Map::Map(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B) {
 
     this->p1 = nullptr; 
     this->p2 = nullptr;
-    this->obstaculos = new list<Obstacle*>();
+    this->obstacles = new list<Obstacle*>();
 }
 
 void Map::addObstacle(Obstacle *obstacle) {
     if (obstacle == nullptr) return;
-    this->obstaculos->push_back(obstacle);
+    this->obstacles->push_back(obstacle);
 }
 
 void Map::addObstacleList(list<Obstacle*> *obstacleList) {
@@ -87,4 +87,16 @@ void Map::setCharacters(Character *p1, Character *p2) {
     if (p1 == nullptr or p2 == nullptr) return;
     this->p1 = p1;
     this->p2 = p2;
+}
+
+Character* Map::getPlayerOne() {
+    return this->p1;
+}
+
+Character* Map::getPlayerTwo() {
+    return this->p2;
+}
+
+list<Obstacle*>* Map::getObstacles() {
+    return this->obstacles;
 }

@@ -58,9 +58,12 @@ void Character::drawCharacter() {
 Character::Character(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B) { 
     this->center = center;
     this->radius = radius;
+    
     this->R = R;
     this->G = G;
     this->B = B;
+    
+    this->direction = 0;
 }
 
 void Character::draw() {
@@ -68,7 +71,8 @@ void Character::draw() {
 }
 
 void Character::walk(GLfloat dx, GLfloat dy) {
-
+    this->getCenter()->setX(dx);
+    this->getCenter()->setY(dy);
 }
 
 Position* Character::getCenter() {

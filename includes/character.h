@@ -10,6 +10,7 @@
 class Character {
     Position *center;
     GLfloat R,G,B;
+    GLfloat direction;
     GLint radius;
 
 private:
