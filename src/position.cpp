@@ -3,9 +3,10 @@
 /** PRIVATE METHODS */
 
 /** PUBLIC METHODS */
-Position::Position(GLfloat x, GLfloat y) {
+Position::Position(GLfloat x, GLfloat y, GLint radius) {
     this->x = x;
     this->y = y;
+	this->radius = radius;
 }
 
 GLfloat Position::getX() {
@@ -14,6 +15,10 @@ GLfloat Position::getX() {
 
 GLfloat Position::getY() {
 	return this->y;
+}
+
+GLint Position::getRadius() {
+	return this->radius;
 }
 
 void Position::setX(GLfloat dx) {

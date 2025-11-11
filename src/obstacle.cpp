@@ -17,16 +17,17 @@ void Obstacle::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
 void Obstacle::drawObstacle() {
     glPushMatrix();
     
-    glTranslatef(this->center->getX(), this->center->getY(), 0);
-    this->drawCircle(this->radius, this->R, this->G, this->B);
+    GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
+    GLint radius = this->getRadius();
+    glTranslatef(x, y, 0);
+    this->drawCircle(radius, this->R, this->G, this->B);
     
     glPopMatrix();
 }
 
 /** PUBLIC METHODS */
-Obstacle::Obstacle(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B) {
+Obstacle::Obstacle(Position *center, GLfloat R, GLfloat G, GLfloat B) {
     this->center = center;
-    this->radius = radius;
 
     this->R = R;
     this->G = G;
@@ -35,4 +36,12 @@ Obstacle::Obstacle(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat
 
 void Obstacle::draw() {
     this->drawObstacle();
+}
+
+Position* Obstacle::getCenter() {
+    return this->center;
+}
+
+GLint Obstacle::getRadius() {
+    return this->getCenter()->getRadius();
 }

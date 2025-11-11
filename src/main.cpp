@@ -80,9 +80,9 @@ void keyPress(unsigned char key, int x, int y) {
             keyStatus[(int)('l')] = 1;
             break;
 
-        case 'ç':
-        case 'Ç':
-            keyStatus[(int)('ç')] = 1;
+        case 231: /** ç */
+        case 199: /** Ç */
+            keyStatus[231] = 1;
             break;
     }
 }
@@ -102,7 +102,7 @@ void idle(void) {
     if (keyStatus[(int)('o')]) { p2->walk(0, +INC_KEY); }
     if (keyStatus[(int)('l')]) { p2->walk(0, -INC_KEY); }
     if (keyStatus[(int)('k')]) { p2->walk(-INC_KEY, 0); }
-    if (keyStatus[(int)('ç')]) { p2->walk(+INC_KEY, 0); }
+    if (keyStatus[231])        { p2->walk(+INC_KEY, 0); }
 
     glutPostRedisplay();
 }
@@ -126,12 +126,12 @@ void parse(const char *svgPath) {
         string id = elemento->Attribute("id");
         string fill = elemento->Attribute("fill");
 
-        Position *pos = new Position(centerX, centerY);
+        Position *pos = new Position(centerX, centerY, radius);
 
-        if (fill == "black")      { obstaculos->push_back( new Obstacle(pos, radius, 0,0,0) ); } /* obstaculo*/
-        else if (fill == "blue")  { mapa = new Map(pos, radius, 0,0,1); }     /** mapa */
-        else if (fill == "green") { p1 = new Character(pos, radius, 0,1,0); } /** p1 */ 
-        else if (fill == "red")   { p2 = new Character(pos, radius, 1,0,0); }  /** *p2 */
+        if (fill == "black")      { obstaculos->push_back( new Obstacle(pos, 0,0,0) ); } /* obstaculo*/
+        else if (fill == "blue")  { mapa = new Map(pos, 0,0,1); }     /** mapa */
+        else if (fill == "green") { p1 = new Character(pos, 0,1,0); } /** p1 */ 
+        else if (fill == "red")   { p2 = new Character(pos, 1,0,0); }  /** *p2 */
 
         elemento = elemento->NextSiblingElement("circle");
     }

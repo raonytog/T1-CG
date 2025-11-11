@@ -38,26 +38,27 @@ void Character::drawLeg(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
 
 void Character::drawCharacter() { 
     glPushMatrix();
+    GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
+    GLint radius = this->getRadius();
 
     // pernas
 
     // braco
 
     // torso
-    glTranslatef(this->getCenter()->getX(), this->getCenter()->getY(), 0);
-    this->drawTorso(this->getRadius(), this->R, this->G, this->B);
+    glTranslatef(x, y, 0);
+    this->drawTorso(radius, this->R, this->G, this->B);
 
     // cabeca
-    this->drawHead(this->getRadius(), this->R, this->G, this->B);
+    this->drawHead(radius, this->R, this->G, this->B);
 
     glPopMatrix();
 }
 
 
 /** PUBLIC METHODS */
-Character::Character(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B) { 
+Character::Character(Position *center, GLfloat R, GLfloat G, GLfloat B) { 
     this->center = center;
-    this->radius = radius;
     
     this->R = R;
     this->G = G;
@@ -85,5 +86,5 @@ Position* Character::getCenter() {
 }
 
 GLint Character::getRadius() {
-    return this->radius;
+    return this->getCenter()->getRadius();
 }

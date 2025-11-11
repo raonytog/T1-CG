@@ -7,16 +7,23 @@
 
 class Position {
     GLfloat x, y;
+    GLint radius;
 
 private:
 
 public:
-    Position(GLfloat x, GLfloat y);
+    Position(GLfloat x, GLfloat y, GLint radius);
+    GLfloat getDistancePoints(Position *a, Position *b);
+    bool checkColision(Position *a, Position *b);
+
+    /** getter */
     GLfloat getX();
     GLfloat getY();
+    GLint getRadius();
+
+    /** setters */
     void setX(GLfloat dx);
     void setY(GLfloat dy);
-    GLfloat getDistancePoints(Position *a, Position *b);
 };
 
 #endif

@@ -11,7 +11,6 @@ class Character {
     Position *center;
     GLfloat R,G,B;
     GLfloat direction;
-    GLint radius;
 
 private:
     void drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B);
@@ -21,7 +20,7 @@ private:
     void drawCharacter();
 
 public:
-    Character(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    Character(Position *center, GLfloat R, GLfloat G, GLfloat B);
     void draw();
     void walk(GLfloat dx, GLfloat dy);
     void rotateHead(GLfloat inc);

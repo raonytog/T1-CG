@@ -8,7 +8,6 @@
 #include "position.h"
 
 class Obstacle {
-    GLint radius;
     Position *center;
     GLfloat R, G, B;
 
@@ -17,8 +16,14 @@ private:
     void drawObstacle();
 
 public:
-    Obstacle(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    Obstacle(Position *center,  GLfloat R, GLfloat G, GLfloat B);
     void draw();
+
+    /** getters */
+    Position* getCenter();
+    GLint getRadius();
+    
+    /** setters */
     
 
 };

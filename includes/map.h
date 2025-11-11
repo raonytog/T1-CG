@@ -12,7 +12,6 @@ using namespace std;
 #include "position.h"
 #include "obstacle.h"
 class Map {
-    GLint radius;
     Position *center;
     GLfloat R, G, B;
     Character *p1, *p2;
@@ -26,7 +25,7 @@ private:
     void drawMap();
 
 public:
-    Map(Position *center, GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    Map(Position *center, GLfloat R, GLfloat G, GLfloat B);
     void draw();
     void addObstacle(Obstacle *obstacle);
     void addObstacleList(list<Obstacle*> *obstacleList);
