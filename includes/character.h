@@ -15,8 +15,8 @@ class Character {
 private:
     void drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B);
     void drawTorso(GLint radius, GLfloat R, GLfloat G, GLfloat B);
-    void drawArm(GLint radius, GLfloat R, GLfloat G, GLfloat B);
-    void drawLeg(GLint radius, GLfloat R, GLfloat G, GLfloat B);
+    void drawArm(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B);
+    void drawLeg(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B);
     void drawCharacter();
 
 public:

@@ -28,13 +28,24 @@ void Character::drawTorso(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     glEnd();
 }
 
-void Character::drawArm(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
-
+static void drawRect(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B) {
+    glBegin(GL_POLYGON);
+        glColor3f(R, G, B);
+        glVertex3f(-width/2, height, 0); // D
+        glVertex3f(-width/2, 0, 0); // A
+        glVertex3f(width/2, 0, 0); // B
+        glVertex3f(width/2, height, 0); // C
+    glEnd();
 }
 
-void Character::drawLeg(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
-
+void Character::drawArm(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B) {
+    drawRect(width,height, this->R, this->G, this->B);
 }
+
+void Character::drawLeg(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B) {
+    drawRect(width, height, 0,0,0);
+}
+
 
 void Character::drawCharacter() { 
     glPushMatrix();
@@ -43,6 +54,7 @@ void Character::drawCharacter() {
     GLfloat angle = this->getDirection();
 
     // pernas
+    
     
     // braco
     
