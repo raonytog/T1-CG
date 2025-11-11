@@ -40,13 +40,15 @@ void Character::drawCharacter() {
     glPushMatrix();
     GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
     GLint radius = this->getRadius();
+    GLfloat angle = this->getDirection();
 
     // pernas
-
+    
     // braco
-
+    
     // torso
     glTranslatef(x, y, 0);
+    glRotatef(angle, 0, 0, 1);
     this->drawTorso(radius, this->R, this->G, this->B);
 
     // cabeca
@@ -71,8 +73,12 @@ void Character::draw() {
     this->drawCharacter();
 }
 
-void Character::walk(GLfloat dx, GLfloat dy) {
-    Position *center = this->getCenter();
+void Character::moveForward(GLfloat aceleration) {
+    GLfloat rad = this->direction * M_PI / 180.0;
+
+    GLfloat dx = aceleration * cos(rad);
+    GLfloat dy = aceleration * sin(rad);
+
     center->setX(center->getX() + dx);
     center->setY(center->getY() + dy);
 }
@@ -87,4 +93,8 @@ Position* Character::getCenter() {
 
 GLint Character::getRadius() {
     return this->getCenter()->getRadius();
+}
+
+GLfloat Character::getDirection() {
+    return this->direction;
 }

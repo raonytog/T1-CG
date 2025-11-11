@@ -22,12 +22,13 @@ private:
 public:
     Character(Position *center, GLfloat R, GLfloat G, GLfloat B);
     void draw();
-    void walk(GLfloat dx, GLfloat dy);
+    void moveForward(GLfloat aceleration);
     void rotateHead(GLfloat inc);
 
     /** getters */
     Position* getCenter();
     GLint getRadius();
+    GLfloat getDirection();
 
 };
 

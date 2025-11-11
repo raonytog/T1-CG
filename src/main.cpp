@@ -94,15 +94,15 @@ void ResetKeyStatus() {
 }
 
 void idle(void) {
-    if (keyStatus[(int)('w')]) { p1->walk(0, +INC_KEY); }
-    if (keyStatus[(int)('s')]) { p1->walk(0, -INC_KEY); }
-    if (keyStatus[(int)('a')]) { p1->walk(-INC_KEY, 0); }
-    if (keyStatus[(int)('d')]) { p1->walk(+INC_KEY, 0); }
+    if (keyStatus[(int)('w')]) { p1->moveForward(+INC_KEY); }
+    if (keyStatus[(int)('s')]) { p1->moveForward(-INC_KEY); }
+    if (keyStatus[(int)('a')]) { p1->rotateHead(+INC_KEY); }
+    if (keyStatus[(int)('d')]) { p1->rotateHead(-INC_KEY); }
 
-    if (keyStatus[(int)('o')]) { p2->walk(0, +INC_KEY); }
-    if (keyStatus[(int)('l')]) { p2->walk(0, -INC_KEY); }
-    if (keyStatus[(int)('k')]) { p2->walk(-INC_KEY, 0); }
-    if (keyStatus[231])        { p2->walk(+INC_KEY, 0); }
+    if (keyStatus[(int)('o')]) { p2->moveForward(+INC_KEY); }
+    if (keyStatus[(int)('l')]) { p2->moveForward(-INC_KEY); }
+    if (keyStatus[(int)('k')]) { p2->rotateHead(+INC_KEY); }
+    if (keyStatus[231])        { p2->rotateHead(-INC_KEY); }
 
     glutPostRedisplay();
 }
