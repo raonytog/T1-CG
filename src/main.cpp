@@ -128,9 +128,9 @@ void parse(const char *svgPath) {
 
         Position *pos = new Position(centerX, centerY, radius);
 
-        if (fill == "black")      { obstaculos->push_back( new Obstacle(pos, 0,0,0) ); } /* obstaculo*/
+        if      (fill == "black") { obstaculos->push_back( new Obstacle(pos, 0,0,0) ); } /* obstaculo*/
         else if (fill == "blue")  { mapa = new Map(pos, 0,0,1); }     /** mapa */
-        else if (fill == "green") { p1 = new Character(pos, 360, 0,1,0); } /** p1 */ 
+        else if (fill == "green") { p1 = new Character(pos, 0, 0,1,0); } /** p1 */ 
         else if (fill == "red")   { p2 = new Character(pos, 180, 1,0,0); }  /** *p2 */
 
         elemento = elemento->NextSiblingElement("circle");
@@ -163,7 +163,7 @@ int main(int argc, char *argv[]) {
     /** config windows */
     glutInitWindowSize(WINDOWS_SIZE, WINDOWS_SIZE);
     glutInitWindowPosition(800, 150);
-    glutCreateWindow("Tranformations 2D");
+    glutCreateWindow("T1 CG by: RTog");
 
     /** callbacks */
     glutDisplayFunc(renderScene);

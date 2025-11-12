@@ -3,14 +3,19 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glut.h>
 
 #include "position.h"
 #include "shot.h"
+
+#define LEFT 0
+#define RIGHT 1
 
 class Character {
     Position *center;
     GLfloat R,G,B;
     GLfloat direction;
+    int forwardLeg;
 
 private:
     void drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B);

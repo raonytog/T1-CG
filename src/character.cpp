@@ -13,13 +13,33 @@ void Character::drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
         glVertex3f(x, y, 0);
     }
     glEnd();
+
+    glColor3f(0,0,0);
+    glLineWidth(2.0f);
+    glBegin(GL_LINE_LOOP);
+    for(double i = 0; i < 2*M_PI; i+= M_PI/24) {
+        float x = radius * cos(i);
+        float y = radius * sin(i);
+        glVertex3f(x, y, 0);
+    }
+    glEnd();
 }
 
 void Character::drawTorso(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     glPointSize(1.0);
-    glColor3f(R-.2, G-.2, B-.2);
+    glColor3f(R,G,B);
     
     glBegin(GL_POLYGON);
+    for(double i = 0; i < 2*M_PI; i+= M_PI/24) {
+        float x = radius*2 * cos(i);
+        float y = radius/2 * sin(i);
+        glVertex3f(x, y, 0);
+    }
+    glEnd();
+
+    glColor3f(0,0,0);
+    glLineWidth(2.0f);
+    glBegin(GL_LINE_LOOP);
     for(double i = 0; i < 2*M_PI; i+= M_PI/24) {
         float x = radius*2 * cos(i);
         float y = radius/2 * sin(i);
@@ -36,6 +56,15 @@ static void drawRect(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloa
         glVertex3f(width/2, 0, 0); // B
         glVertex3f(width/2, height, 0); // C
     glEnd();
+
+    glColor3f(0,0,0);
+    glLineWidth(2.0f);
+    glBegin(GL_LINE_LOOP);
+        glVertex3f(-width/2, height, 0);
+        glVertex3f(-width/2, 0, 0);
+        glVertex3f(width/2, 0, 0);
+        glVertex3f(width/2, height, 0);
+    glEnd();
 }
 
 void Character::drawArm(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B) {
@@ -46,6 +75,36 @@ void Character::drawLeg(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLf
     drawRect(width, height, 0,0,0);
 }
 
+static void drawRightLeg();
+
+static void drawLeftLeg();
+
+void drawText(const char *string, float x, float y) {
+    glRasterPos2f(x, y);
+
+    void *font = GLUT_BITMAP_9_BY_15;
+
+    const unsigned char *ustr = (const unsigned char*)string;
+    for (const unsigned char *c = ustr; *c != '\0'; ++c) {
+        glutBitmapCharacter(font, *c);
+    }
+}
+
+void drawCoordSystem() {
+    float axisLength = 50.0;
+
+    glColor3f(1.0, 1.0, 1.0);
+    glBegin(GL_LINE_STRIP);
+        glVertex3f(0, axisLength, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(axisLength, 0, 0);
+    glEnd();
+
+    drawText("Y", 0, axisLength + 10); 
+
+    drawText("X", axisLength + 10, 0);
+}
+
 
 void Character::drawCharacter() { 
     glPushMatrix();
@@ -53,26 +112,28 @@ void Character::drawCharacter() {
     GLfloat angle = this->getDirection();
     GLfloat R = this->R, G = this->G, B = this->B;
     GLint radius = this->getRadius();
-
-    glTranslatef(x, y, 0);
-    glRotatef(angle, 0, 0, 1);
-
-    // pernas
     
+    glTranslatef(x, y, 0);
+    glRotatef(angle, 0 ,0, 1);
+    drawCoordSystem();
+    
+    // pernas
+
     
     // braco
     glPushMatrix();
-        glTranslatef(radius*2, 0, 0);
-        this->drawArm(radius/4, radius, R, G, B);
+    glTranslatef(radius*2, 0, 0);
+    this->drawArm(radius/4, radius, R, G, B);
     glPopMatrix();
     
-
+    
     // torso
     this->drawTorso(radius, R, G, B);
-
+    
     // cabeca
     this->drawHead(radius, R, G, B);
-
+    
+    // drawCoordSystem();
     glPopMatrix();
 }
 
@@ -84,8 +145,9 @@ Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, 
     this->R = R;
     this->G = G;
     this->B = B;
-    
+
     this->direction = direction;
+    this->forwardLeg = RIGHT;
 }
 
 void Character::draw() {
