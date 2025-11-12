@@ -149,8 +149,10 @@ void init(const char *svgPath) {
     GLfloat r = mapa->getRadius();
  
     glMatrixMode(GL_PROJECTION);
+    cout << cx << endl;
+    cout << r << endl;
     glOrtho(cx-r, cx+r,
-            cy+r, cy-r,
+            cy-r, cy+r,
             -100, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
