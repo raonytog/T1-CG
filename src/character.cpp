@@ -50,35 +50,42 @@ void Character::drawLeg(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLf
 void Character::drawCharacter() { 
     glPushMatrix();
     GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
-    GLint radius = this->getRadius();
     GLfloat angle = this->getDirection();
+    GLfloat R = this->R, G = this->G, B = this->B;
+    GLint radius = this->getRadius();
+
+    glTranslatef(x, y, 0);
+    glRotatef(angle, 0, 0, 1);
 
     // pernas
     
     
     // braco
+    glPushMatrix();
+        glTranslatef(radius*2, 0, 0);
+        this->drawArm(radius/4, radius, R, G, B);
+    glPopMatrix();
     
+
     // torso
-    glTranslatef(x, y, 0);
-    glRotatef(angle, 0, 0, 1);
-    this->drawTorso(radius, this->R, this->G, this->B);
+    this->drawTorso(radius, R, G, B);
 
     // cabeca
-    this->drawHead(radius, this->R, this->G, this->B);
+    this->drawHead(radius, R, G, B);
 
     glPopMatrix();
 }
 
 
 /** PUBLIC METHODS */
-Character::Character(Position *center, GLfloat R, GLfloat G, GLfloat B) { 
+Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, GLfloat B) { 
     this->center = center;
     
     this->R = R;
     this->G = G;
     this->B = B;
     
-    this->direction = 0;
+    this->direction = direction;
 }
 
 void Character::draw() {

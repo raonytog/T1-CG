@@ -96,13 +96,13 @@ void ResetKeyStatus() {
 void idle(void) {
     if (keyStatus[(int)('w')]) { p1->moveForward(+INC_KEY); }
     if (keyStatus[(int)('s')]) { p1->moveForward(-INC_KEY); }
-    if (keyStatus[(int)('a')]) { p1->rotateHead(+INC_KEY); }
-    if (keyStatus[(int)('d')]) { p1->rotateHead(-INC_KEY); }
+    if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
+    if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
 
     if (keyStatus[(int)('o')]) { p2->moveForward(+INC_KEY); }
     if (keyStatus[(int)('l')]) { p2->moveForward(-INC_KEY); }
-    if (keyStatus[(int)('k')]) { p2->rotateHead(+INC_KEY); }
-    if (keyStatus[231])        { p2->rotateHead(-INC_KEY); }
+    if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); }
+    if (keyStatus[231])        { p2->rotateHead(+INC_KEY); }
 
     glutPostRedisplay();
 }
@@ -130,8 +130,8 @@ void parse(const char *svgPath) {
 
         if (fill == "black")      { obstaculos->push_back( new Obstacle(pos, 0,0,0) ); } /* obstaculo*/
         else if (fill == "blue")  { mapa = new Map(pos, 0,0,1); }     /** mapa */
-        else if (fill == "green") { p1 = new Character(pos, 0,1,0); } /** p1 */ 
-        else if (fill == "red")   { p2 = new Character(pos, 1,0,0); }  /** *p2 */
+        else if (fill == "green") { p1 = new Character(pos, 360, 0,1,0); } /** p1 */ 
+        else if (fill == "red")   { p2 = new Character(pos, 180, 1,0,0); }  /** *p2 */
 
         elemento = elemento->NextSiblingElement("circle");
     }

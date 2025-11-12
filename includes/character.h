@@ -20,7 +20,7 @@ private:
     void drawCharacter();
 
 public:
-    Character(Position *center, GLfloat R, GLfloat G, GLfloat B);
+    Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, GLfloat B);
     void draw();
     void moveForward(GLfloat aceleration);
     void rotateHead(GLfloat inc);
