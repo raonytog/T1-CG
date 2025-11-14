@@ -16,7 +16,7 @@ using namespace tinyxml2;
 #include "../includes/character.h"
 #include "../includes/shot.h"
 
-#define INC_KEY 10
+#define INC_KEY 1
 
 Map *mapa = nullptr;
 Character *p1 = nullptr,
@@ -94,15 +94,15 @@ void ResetKeyStatus() {
 }
 
 void idle(void) {
-    if (keyStatus[(int)('w')]) { p1->moveForward(+INC_KEY); }
-    if (keyStatus[(int)('s')]) { p1->moveForward(-INC_KEY); }
     if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
     if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
+    if (keyStatus[(int)('w')]) { p1->moveForward(+INC_KEY); }
+    if (keyStatus[(int)('s')]) { p1->moveForward(-INC_KEY); }
 
-    if (keyStatus[(int)('o')]) { p2->moveForward(+INC_KEY); }
-    if (keyStatus[(int)('l')]) { p2->moveForward(-INC_KEY); }
     if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); }
     if (keyStatus[231])        { p2->rotateHead(+INC_KEY); }
+    if (keyStatus[(int)('o')]) { p2->moveForward(+INC_KEY); }
+    if (keyStatus[(int)('l')]) { p2->moveForward(-INC_KEY); }
 
     glutPostRedisplay();
 }
@@ -149,10 +149,8 @@ void init(const char *svgPath) {
     GLfloat r = mapa->getRadius();
  
     glMatrixMode(GL_PROJECTION);
-    cout << cx << endl;
-    cout << r << endl;
     glOrtho(cx-r, cx+r,
-            cy-r, cy+r,
+            cy+r, cy-r,
             -100, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

@@ -18,10 +18,12 @@ void Map::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
 void Map::drawBase() {
     glPushMatrix();
 
-    GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
-    GLint radius = this->getCenter()->getRadius();
+    GLfloat x = this->getCenter()->getX(),
+            y = this->getCenter()->getY(),
+            R = this->R, G = this->G, B = this->B;
+    GLint radius = this->getRadius();
     glTranslatef(x, y, 0);
-    this->drawCircle(radius, this->R, this->G, this->B);
+    this->drawCircle(radius, R, G, B);
 
     glPopMatrix();
 }
@@ -101,3 +103,4 @@ Character* Map::getPlayerTwo() {
 list<Obstacle*>* Map::getObstacles() {
     return this->obstacles;
 }
+

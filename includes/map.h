@@ -29,6 +29,7 @@ public:
     void draw();
     void addObstacle(Obstacle *obstacle);
     void addObstacleList(list<Obstacle*> *obstacleList);
+
     /** getters */
     GLint getRadius();
     Position* getCenter();

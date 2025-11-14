@@ -14,8 +14,10 @@
 class Character {
     Position *center;
     GLfloat R,G,B;
-    GLfloat direction;
+    GLfloat directionAngle;
+    GLfloat armAngle;
     int forwardLeg;
+
 
 private:
     void drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B);

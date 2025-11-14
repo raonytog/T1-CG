@@ -79,33 +79,6 @@ static void drawRightLeg();
 
 static void drawLeftLeg();
 
-void drawText(const char *string, float x, float y) {
-    glRasterPos2f(x, y);
-
-    void *font = GLUT_BITMAP_9_BY_15;
-
-    const unsigned char *ustr = (const unsigned char*)string;
-    for (const unsigned char *c = ustr; *c != '\0'; ++c) {
-        glutBitmapCharacter(font, *c);
-    }
-}
-
-void drawCoordSystem() {
-    float axisLength = 50.0;
-
-    glColor3f(1.0, 1.0, 1.0);
-    glBegin(GL_LINE_STRIP);
-        glVertex3f(0, axisLength, 0);
-        glVertex3f(0, 0, 0);
-        glVertex3f(axisLength, 0, 0);
-    glEnd();
-
-    drawText("Y", 0, axisLength + 10); 
-
-    drawText("X", axisLength + 10, 0);
-}
-
-
 void Character::drawCharacter() { 
     glPushMatrix();
     GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
@@ -115,7 +88,6 @@ void Character::drawCharacter() {
     
     glTranslatef(x, y, 0);
     glRotatef(angle, 0 ,0, 1);
-    drawCoordSystem();
     
     // pernas
 
@@ -146,7 +118,7 @@ Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, 
     this->G = G;
     this->B = B;
 
-    this->direction = direction;
+    this->directionAngle = direction;
     this->forwardLeg = RIGHT;
 }
 
@@ -155,7 +127,7 @@ void Character::draw() {
 }
 
 void Character::moveForward(GLfloat aceleration) {
-    GLfloat rad = this->direction * M_PI / 180.0;
+    GLfloat rad = this->directionAngle * M_PI / 180.0;
 
     GLfloat dx = aceleration * cos(rad);
     GLfloat dy = aceleration * sin(rad);
@@ -165,7 +137,7 @@ void Character::moveForward(GLfloat aceleration) {
 }
 
 void Character::rotateHead(GLfloat inc) {
-    this->direction += inc;
+    this->directionAngle += inc;
 }
 
 Position* Character::getCenter() {
@@ -177,5 +149,5 @@ GLint Character::getRadius() {
 }
 
 GLfloat Character::getDirection() {
-    return this->direction;
+    return this->directionAngle;
 }
