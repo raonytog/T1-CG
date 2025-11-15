@@ -16,7 +16,7 @@ using namespace tinyxml2;
 #include "../includes/character.h"
 #include "../includes/shot.h"
 
-#define INC_KEY 1
+#define INC_KEY 5
 
 Map *mapa = nullptr;
 Character *p1 = nullptr,
