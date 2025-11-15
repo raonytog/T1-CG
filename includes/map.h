@@ -7,6 +7,9 @@
 using namespace std;
 #include <list>
 
+#define PLAYER1 0
+#define PLAYER2 1
+
 /** arquivos autorais */
 #include "character.h"
 #include "position.h"
@@ -29,6 +32,8 @@ public:
     void draw();
     void addObstacle(Obstacle *obstacle);
     void addObstacleList(list<Obstacle*> *obstacleList);
+    void moveCharacter(Character *p, int player, GLfloat accelaration);
+    void rotateCharacter(Character *p);
 
     /** getters */
     GLint getRadius();

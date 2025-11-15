@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "../includes/map.h"
 #include "../includes/position.h"
 
@@ -76,6 +78,47 @@ void Map::addObstacleList(list<Obstacle*> *obstacleList) {
     for (Obstacle* obs : *obstacleList) {
         this->addObstacle(obs);
     }
+}
+
+void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
+    GLfloat rad = p->getDirection() * M_PI / 180.0;
+
+    GLint charRadius = p->getRadius();
+    GLfloat currentX = p->getCenter()->getX();
+    GLfloat currentY = p->getCenter()->getY();
+
+    GLfloat dx = accelaration * cos(rad);
+    GLfloat dy = accelaration * sin(rad);
+
+    Position *newPos = new Position(currentX+dx, currentY+dy, charRadius);
+
+    /** verifica colisao com player */
+    bool colidiu = false;
+    if (newPos->getDistancePoints(this->getPlayerTwo()->getCenter()) <= charRadius)
+        colidiu = true;
+    
+
+    /** verifica colisao com obstaculos */
+    if (colidiu == false) {
+        for (Obstacle *obstaculo : *this->getObstacles()) {
+            if (newPos->getDistancePoints(obstaculo->getCenter()) <= obstaculo->getRadius()) {
+                colidiu = true;
+                break;
+            }
+        }
+    }
+
+    /** verifica se o jogador saiu do mapa */
+    if (colidiu == false) {
+        if (newPos->getDistancePoints(this->getCenter()) > this->getRadius()) colidiu = true;
+    }
+
+    if (colidiu) return;
+    else p->moveForward(accelaration);
+}
+
+void Map::rotateCharacter(Character *p) {
+
 }
 
 GLint Map::getRadius() {

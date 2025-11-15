@@ -29,8 +29,8 @@ void Position::setY(GLfloat dy) {
 	this->y = dy;
 }
 
-GLfloat Position::getDistancePoints(Position *a, Position *b) {
-	GLfloat dx = a->getX() - b->getX();
-	GLfloat dy = a->getY() - b->getY();
+GLfloat Position::getDistancePoints(Position *b) {
+	GLfloat dx = this->getX() - b->getX();
+	GLfloat dy = this->getY() - b->getY();
 	return sqrt(dx*dx + dy*dy);
 }

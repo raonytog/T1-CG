@@ -13,7 +13,7 @@ private:
 
 public:
     Position(GLfloat x, GLfloat y, GLint radius);
-    GLfloat getDistancePoints(Position *a, Position *b);
+    GLfloat getDistancePoints(Position *b);
     bool checkColision(Position *a, Position *b);
 
     /** getter */

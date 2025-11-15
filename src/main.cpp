@@ -96,7 +96,8 @@ void ResetKeyStatus() {
 void idle(void) {
     if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
     if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
-    if (keyStatus[(int)('w')]) { p1->moveForward(+INC_KEY); }
+    // if (keyStatus[(int)('w')]) { p1->moveForward(+INC_KEY); }
+    if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
     if (keyStatus[(int)('s')]) { p1->moveForward(-INC_KEY); }
 
     if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); }

@@ -1,6 +1,9 @@
 #include "../includes/character.h"
 #include <iostream>
 
+#define LEFT 0
+#define RIGHT 1
+
 /** PRIVATE METHODS */
 void Character::drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     glPointSize(1.0);
