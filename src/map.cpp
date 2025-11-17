@@ -82,34 +82,35 @@ void Map::addObstacleList(list<Obstacle*> *obstacleList) {
 
 void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
     GLfloat rad = p->getDirection() * M_PI / 180.0;
-
     GLint charRadius = p->getRadius();
-    GLint sumRadius = 0;
-
+    
     GLfloat currentX = p->getCenter()->getX();
     GLfloat currentY = p->getCenter()->getY();
 
     GLfloat dx = accelaration * cos(rad);
     GLfloat dy = accelaration * sin(rad);
 
-    Position *newPos = new Position(currentX+dx, currentY+dy, charRadius);
+    Position* newPos = new Position(currentX + dx, currentY + dy, charRadius);
 
-    /** verifica colisao com player */
-    sumRadius = charRadius*2;
-    if (newPos->getDistancePoints(this->getPlayerTwo()->getCenter()) <= sumRadius) return;
+    /** analisa quem é o oponente, p1 ou p2 */
+    Character* oponente = (player == PLAYER1) ? this->getPlayerTwo() : this->getPlayerOne();
 
-    /** verifica colisao com obstaculos */
+    /** verifica colisao com outro player */
+    GLint sumRadius = charRadius * 2;
+    if (newPos->getDistancePoints(oponente->getCenter()) <= sumRadius) return;
+
+    /** verifica colisao com os obstaculos */
     for (Obstacle *obstaculo : *this->getObstacles()) {
-        sumRadius = obstaculo->getRadius()+newPos->getRadius(); 
+        sumRadius = obstaculo->getRadius() + charRadius;
         if (newPos->getDistancePoints(obstaculo->getCenter()) <= sumRadius) return;
     }
 
-    /** verifica se o jogador saiu do mapa */
-    sumRadius = this->getRadius()+newPos->getRadius();
-    if (newPos->getDistancePoints(this->getCenter()) >= sumRadius) return;
+    /** verifica colisao com a area fora do mapa */
+    if (newPos->getDistancePoints(this->getCenter()) + charRadius >= this->getRadius()) return;
     
-    /** se nao retornou nenhuma vez, nao ha colisao -> move */
+    /** se chegou aqui, nao houve colisao, .: move */
     p->moveForward(accelaration);
+    delete newPos;
 }
 
 void Map::rotateCharacter(Character *p) {

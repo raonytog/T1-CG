@@ -96,14 +96,13 @@ void ResetKeyStatus() {
 void idle(void) {
     if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
     if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
-    // if (keyStatus[(int)('w')]) { p1->moveForward(+INC_KEY); }
     if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
-    if (keyStatus[(int)('s')]) { p1->moveForward(-INC_KEY); }
+    if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); }
 
     if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); }
     if (keyStatus[231])        { p2->rotateHead(+INC_KEY); }
-    if (keyStatus[(int)('o')]) { p2->moveForward(+INC_KEY); }
-    if (keyStatus[(int)('l')]) { p2->moveForward(-INC_KEY); }
+    if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
+    if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
 
     glutPostRedisplay();
 }
