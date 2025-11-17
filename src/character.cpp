@@ -90,7 +90,7 @@ void Character::drawCharacter() {
     GLint radius = this->getRadius();
     
     glTranslatef(x, y, 0);
-    glRotatef(angle, 0 ,0, 1);
+    glRotatef(angle-90, 0 ,0, 1);
     
     // pernas
 
@@ -153,4 +153,8 @@ GLint Character::getRadius() {
 
 GLfloat Character::getDirection() {
     return this->directionAngle;
+}
+
+void Character::setDirection(GLfloat direction) {
+    this->directionAngle = direction;
 }

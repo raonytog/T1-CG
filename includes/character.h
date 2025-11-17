@@ -34,6 +34,9 @@ public:
     GLint getRadius();
     GLfloat getDirection();
 
+    /** setters */
+    void setDirection(GLfloat direction);
+
 };
 
 #endif

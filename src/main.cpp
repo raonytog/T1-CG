@@ -107,6 +107,26 @@ void idle(void) {
     glutPostRedisplay();
 }
 
+/**
+ * @brief Essa função faz os personagens serem inicializados olhando um para o outro
+ */
+void fixChractersDirection() {
+    GLfloat x1 = p1->getCenter()->getX(), y1 = p1->getCenter()->getY(),
+            x2 = p2->getCenter()->getX(), y2 = p2->getCenter()->getY();
+
+    GLfloat dx = x2 - x1,
+            dy = y2 - y1;
+
+    GLfloat angleInDegrees = atan2(dy, dx) * 180.0 / M_PI;
+
+    p1->setDirection(angleInDegrees);
+    p2->setDirection(angleInDegrees+180);
+}
+
+/**
+ * @brief Popula o sistema com o mapa, obstaculos e personagens do jogo
+ * @param *svgPath é o ponteiro para o caminho do arquvio SVG
+ */
 void parse(const char *svgPath) {
     XMLDocument doc;    XMLError eResult = doc.LoadFile(svgPath);
 
@@ -130,11 +150,14 @@ void parse(const char *svgPath) {
 
         if      (fill == "black") { obstaculos->push_back( new Obstacle(pos, 0,0,0) ); } /* obstaculo*/
         else if (fill == "blue")  { mapa = new Map(pos, 0,0,1); }     /** mapa */
-        else if (fill == "green") { p1 = new Character(pos, 0, 0,1,0); } /** p1 */ 
-        else if (fill == "red")   { p2 = new Character(pos, 180, 1,0,0); }  /** *p2 */
+        else if (fill == "green") { p1 = new Character(pos, -1, 0,1,0); } /** p1 */ 
+        else if (fill == "red")   { p2 = new Character(pos, -1, 1,0,0); }  /** *p2 */
 
         elemento = elemento->NextSiblingElement("circle");
     }
+
+    fixChractersDirection();
+
     mapa->addObstacleList(obstaculos);
     mapa->setCharacters(p1, p2);
 }
