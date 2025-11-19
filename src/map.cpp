@@ -81,7 +81,7 @@ void Map::addObstacleList(list<Obstacle*> *obstacleList) {
 }
 
 void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
-    GLfloat rad = p->getDirection() * M_PI / 180.0;
+    GLfloat rad = p->getDirectionAngle() * M_PI / 180.0;
     GLint charRadius = p->getRadius();
     
     GLfloat currentX = p->getCenter()->getX();

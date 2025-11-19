@@ -26,6 +26,37 @@ list<Obstacle*> *obstaculos = new list<Obstacle*>();
 const GLint WINDOWS_SIZE = 500;
 int keyStatus[256];
 
+void renderScene();
+void keyup(unsigned char key, int x, int y);
+void keyPress(unsigned char key, int x, int y);
+void ResetKeyStatus();
+void idle(void);
+void fixChractersDirection();
+void parse(const char *svgPath);
+void init(const char *svgPath);
+
+int main(int argc, char *argv[]) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+ 
+    /** config windows */
+    glutInitWindowSize(WINDOWS_SIZE, WINDOWS_SIZE);
+    glutInitWindowPosition(800, 150);
+    glutCreateWindow("T1 CG by: RTog");
+
+    /** callbacks */
+    glutDisplayFunc(renderScene);
+    glutKeyboardFunc(keyPress);
+    glutIdleFunc(idle);
+    glutKeyboardUpFunc(keyup);
+
+    init(argv[1]);
+
+    glutMainLoop();
+ 
+    return 0;
+}
+
 void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -63,6 +94,12 @@ void keyPress(unsigned char key, int x, int y) {
             keyStatus[(int)('d')] = 1;
             break;
 
+        /** atirar */
+        case GLUT_LEFT_BUTTON:
+
+        // mover horiozontal esquerda <
+        // mover horizontal direita >
+
         /** player 2 */
         /** movimentacao */
         case 'o':
@@ -84,6 +121,21 @@ void keyPress(unsigned char key, int x, int y) {
         case 199: /** Ç */
             keyStatus[231] = 1;
             break;
+
+        /** atirar */
+        case '5':
+            keyStatus[(int)('5')] = 1;
+            break;
+
+        /** mover braco */
+        case '4': //left
+            keyStatus[(int)('4')] = 1;
+            break;
+        
+        case '6': //right
+            keyStatus[(int)('6')] = 1;
+            break;
+
     }
 }
 
@@ -94,16 +146,24 @@ void ResetKeyStatus() {
 }
 
 void idle(void) {
+
+    
     if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
     if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
     if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
     if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); }
-
+    // if (keyStatus[(int)('4')]) { p1->rotateArm(-INC_KEY); }
+    // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
+    // if (keyStatus[(int)('6')]) { p1->rotateArm(+INC_KEY); }
+    
     if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); }
     if (keyStatus[231])        { p2->rotateHead(+INC_KEY); }
     if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
     if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
-
+    if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); }
+    // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
+    if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); }
+    
     glutPostRedisplay();
 }
 
@@ -177,26 +237,4 @@ void init(const char *svgPath) {
             -100, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-}
-
-int main(int argc, char *argv[]) {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
- 
-    /** config windows */
-    glutInitWindowSize(WINDOWS_SIZE, WINDOWS_SIZE);
-    glutInitWindowPosition(800, 150);
-    glutCreateWindow("T1 CG by: RTog");
-
-    /** callbacks */
-    glutDisplayFunc(renderScene);
-    glutKeyboardFunc(keyPress);
-    glutIdleFunc(idle);
-    glutKeyboardUpFunc(keyup);
-
-    init(argv[1]);
-
-    glutMainLoop();
- 
-    return 0;
 }

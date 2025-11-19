@@ -9,11 +9,11 @@
 #include "shot.h"
 
 class Character {
-    Position *center;
-    GLfloat R,G,B;
-    GLfloat directionAngle;
-    GLfloat armAngle;
     int forwardLeg;
+    Position *center;
+    GLfloat R,G,B,
+            directionAngle,
+            armAngle;
 
 
 private:
@@ -28,11 +28,14 @@ public:
     void draw();
     void moveForward(GLfloat aceleration);
     void rotateHead(GLfloat inc);
+    void rotateArm(GLfloat inc);
 
     /** getters */
     Position* getCenter();
     GLint getRadius();
-    GLfloat getDirection();
+    GLfloat getDirectionAngle();
+    GLfloat getArmAngle();
+
 
     /** setters */
     void setDirection(GLfloat direction);

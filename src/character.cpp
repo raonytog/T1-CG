@@ -52,6 +52,9 @@ void Character::drawTorso(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
 }
 
 static void drawRect(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B) {
+    glPointSize(1.0);
+    glColor3f(R,G,B);
+    
     glBegin(GL_POLYGON);
         glColor3f(R, G, B);
         glVertex3f(-width/2, height, 0); // D
@@ -84,31 +87,41 @@ static void drawLeftLeg();
 
 void Character::drawCharacter() { 
     glPushMatrix();
-    GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
-    GLfloat angle = this->getDirection();
-    GLfloat R = this->R, G = this->G, B = this->B;
-    GLint radius = this->getRadius();
-    
-    glTranslatef(x, y, 0);
-    glRotatef(angle-90, 0 ,0, 1);
-    
-    // pernas
+        GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
+        GLfloat R = this->R, G = this->G, B = this->B;
+        GLfloat lookAngle = this->getDirectionAngle(), armAngle = this->getArmAngle();
+        GLint radius = this->getRadius();
+        
+        glTranslatef(x, y, 0);
+        glRotatef(lookAngle-90, 0 ,0, 1);
+        
+        // pernas
+        // direita
+        glPushMatrix();
+            glTranslatef(radius*0.75, radius*0.25, 0);
+            this->drawLeg(radius/4, radius, R,G,B);
+        glPopMatrix();
 
+        // esquerda
+        glPushMatrix();
+            glTranslatef(-radius*0.75, -radius*1.25, 0);
+            this->drawLeg(radius/4, radius, R,G,B);
+        glPopMatrix();
+        
+        // braco
+        glPushMatrix();
+            glTranslatef(-radius*2, 0, 0);
+            glRotatef(armAngle, 0, 0, 1);
+            this->drawArm(radius/4, radius, R, G, B);
+        glPopMatrix();
+        
+        
+        // torso
+        this->drawTorso(radius, R, G, B);
+        
+        // cabeca
+        this->drawHead(radius, R, G, B);
     
-    // braco
-    glPushMatrix();
-    glTranslatef(radius*2, 0, 0);
-    this->drawArm(radius/4, radius, R, G, B);
-    glPopMatrix();
-    
-    
-    // torso
-    this->drawTorso(radius, R, G, B);
-    
-    // cabeca
-    this->drawHead(radius, R, G, B);
-    
-    // drawCoordSystem();
     glPopMatrix();
 }
 
@@ -122,6 +135,7 @@ Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, 
     this->B = B;
 
     this->directionAngle = direction;
+    this->armAngle = 0;
     this->forwardLeg = RIGHT;
 }
 
@@ -143,6 +157,13 @@ void Character::rotateHead(GLfloat inc) {
     this->directionAngle += inc;
 }
 
+void Character::rotateArm(GLfloat inc) {
+    GLfloat newAngle = this->armAngle+inc;
+    if      (newAngle < -45) this->armAngle = -45;
+    else if (newAngle > +45) this->armAngle = +45;
+    else                     this->armAngle = newAngle;
+}
+
 Position* Character::getCenter() {
     return this->center;
 }
@@ -151,8 +172,12 @@ GLint Character::getRadius() {
     return this->getCenter()->getRadius();
 }
 
-GLfloat Character::getDirection() {
+GLfloat Character::getDirectionAngle() {
     return this->directionAngle;
+}
+
+GLfloat Character::getArmAngle() {
+    return this->armAngle;
 }
 
 void Character::setDirection(GLfloat direction) {
