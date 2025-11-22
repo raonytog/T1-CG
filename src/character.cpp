@@ -1,9 +1,11 @@
 #include "../includes/character.h"
 #include <iostream>
 
+/** qual perna ta na frente */
 #define LEFT 0
-#define RIGHT 1
+#define RIGHT 1 
 
+/** qtd de frames para desenhar a troca de pernas */
 #define DELAY 20
 
 /** PRIVATE METHODS */
@@ -83,10 +85,6 @@ void Character::drawLeg(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLf
     drawRect(width, height, 0,0,0);
 }
 
-static void drawRightLeg();
-
-static void drawLeftLeg();
-
 void Character::drawCharacter() { 
     glPushMatrix();
         GLfloat x = this->getCenter()->getX(), y = this->getCenter()->getY();
@@ -138,6 +136,7 @@ Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, 
     this->G = G;
     this->B = B;
 
+    this->life = 3;
     this->directionAngle = direction;
     this->armAngle = 0;
     this->forwardLeg = RIGHT;
@@ -201,6 +200,10 @@ GLfloat Character::getArmAngle() {
 
 int Character::getForwardLeg() {
     return this->forwardLeg;
+}
+
+int Character::getLife() {
+    return this->life;
 }
 
 void Character::setDirection(GLfloat direction) {

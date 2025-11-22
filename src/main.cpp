@@ -24,9 +24,12 @@ Character *p1 = nullptr,
 list<Obstacle*> *obstaculos = new list<Obstacle*>();
 
 const GLint WINDOWS_SIZE = 500;
+const char *path = nullptr;
+
 int keyStatus[256];
 int mouseShootStatus = 0;
 
+void restart();
 void mouseMotion(int x, int y);
 void mouseClick(int button, int state, int x, int y);
 void renderScene();
@@ -39,13 +42,14 @@ void parse(const char *svgPath);
 void init(const char *svgPath);
 
 int main(int argc, char *argv[]) {
+    path = argv[1];
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
  
     /** config windows */
     glutInitWindowSize(WINDOWS_SIZE, WINDOWS_SIZE);
     glutInitWindowPosition(800, 150);
-    glutCreateWindow("T1 CG by: RTog");
+    glutCreateWindow("T1 CG, Ray");
 
     /** callbacks */
     glutDisplayFunc(renderScene);
@@ -60,6 +64,43 @@ int main(int argc, char *argv[]) {
     glutMainLoop();
  
     return 0;
+}
+
+void restart() {
+    if (mapa) {
+        list<Obstacle*>* obsList = mapa->getObstacles();
+        for (Obstacle* obs : *obsList) {
+            delete obs;
+        }
+        obsList->clear();
+        delete obsList;
+
+        delete p1->getCenter();
+        delete p1;
+
+        delete p2->getCenter();
+        delete p2;
+        
+        delete mapa->getCenter();
+        delete mapa;
+
+        if (obstaculos) { obstaculos->clear(); }
+        
+        mapa = nullptr;
+        p1 = p2 = nullptr;
+    }
+
+    parse(path);
+
+    if (mapa == nullptr) {
+        cout << "ERRO: A arena não criada." << endl;
+        return;
+    }
+
+    GLfloat cx = mapa->getCenter()->getX();
+    GLfloat cy = mapa->getCenter()->getY();
+    GLfloat r = mapa->getRadius();
+
 }
 
 void mouseClick(int button, int state, int x, int y) {
@@ -154,6 +195,10 @@ void keyPress(unsigned char key, int x, int y) {
             keyStatus[(int)('6')] = 1;
             break;
 
+        case 'R':
+        case 'r':
+            keyStatus[(int)('r')] = 1;
+            break;
     }
 }
 
@@ -164,7 +209,6 @@ void ResetKeyStatus() {
 }
 
 void idle(void) {
-
     if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
     if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
     if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
@@ -180,7 +224,10 @@ void idle(void) {
     if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); }
     // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
     if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); }
-    
+
+
+    if (keyStatus[(int)('r')]) { keyStatus[(int)('r')] = 0; restart(); }
+
     glutPostRedisplay();
 }
 
@@ -243,6 +290,12 @@ void init(const char *svgPath) {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     parse(svgPath);
+
+    if (mapa == nullptr) {
+        cout << "ERRO: A arena não criada." << endl;
+        return; 
+    }
+
     GLfloat cx = mapa->getCenter()->getX();
     GLfloat cy = mapa->getCenter()->getY();
     GLfloat r = mapa->getRadius();

@@ -9,14 +9,13 @@
 #include "shot.h"
 
 class Character {
-    int forwardLeg;
-    int delayToChangeLeg;
+    int forwardLeg,
+        delayToChangeLeg,
+        life;
     Position *center;
     GLfloat R,G,B,
             directionAngle,
             armAngle;
-
-
 
 private:
     void drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B);
@@ -40,6 +39,7 @@ public:
     GLfloat getDirectionAngle();
     GLfloat getArmAngle();
     int getForwardLeg();
+    int getLife();
 
 
     /** setters */

@@ -6,7 +6,7 @@ Colisão                 -> 1.0 - Não sair da arena ou invadir obstáculos: ok
                            1.0 - Não invadir oponente: ok
 
 Atirar                  -> 1.0 - Tiro certo: 
-                        -> 1.0 - Movimento do braco: 
+                        -> 1.0 - Movimento do braco: ok
 
 Fim de jogo             -> 1.0 - Mensagens, placar e restart: 
 Movimento do oponente   -> 1.0 - Andar corretamente: ok
