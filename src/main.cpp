@@ -25,7 +25,10 @@ list<Obstacle*> *obstaculos = new list<Obstacle*>();
 
 const GLint WINDOWS_SIZE = 500;
 int keyStatus[256];
+int mouseShootStatus = 0;
 
+void mouseMotion(int x, int y);
+void mouseClick(int button, int state, int x, int y);
 void renderScene();
 void keyup(unsigned char key, int x, int y);
 void keyPress(unsigned char key, int x, int y);
@@ -49,12 +52,27 @@ int main(int argc, char *argv[]) {
     glutKeyboardFunc(keyPress);
     glutIdleFunc(idle);
     glutKeyboardUpFunc(keyup);
+    glutMouseFunc(mouseClick);
+    glutPassiveMotionFunc(mouseMotion);
 
     init(argv[1]);
 
     glutMainLoop();
  
     return 0;
+}
+
+void mouseClick(int button, int state, int x, int y) {
+    if (state == GLUT_DOWN) {
+        if (button == GLUT_LEFT_BUTTON) mouseShootStatus = 1;
+        
+    } else mouseShootStatus = 0;
+}
+
+void mouseMotion(int x, int y) {
+    if (x < WINDOWS_SIZE/2) { p1->rotateArm(+INC_KEY); }
+    else if (x > WINDOWS_SIZE/2) { p1->rotateArm(-INC_KEY); }
+    glutPostRedisplay();
 }
 
 void renderScene(void) {

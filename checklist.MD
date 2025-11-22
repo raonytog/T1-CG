@@ -1,7 +1,7 @@
 # Checklist
 
-Desenho                 -> 1.0 - Arena e Personagem: 
-Andar                   -> 2.0 - Andar corretamente: 
+Desenho                 -> 1.0 - Arena e Personagem: ok
+Andar                   -> 2.0 - Andar corretamente: ok
 Colisão                 -> 1.0 - Não sair da arena ou invadir obstáculos: ok
                            1.0 - Não invadir oponente: ok
 
@@ -9,5 +9,5 @@ Atirar                  -> 1.0 - Tiro certo:
                         -> 1.0 - Movimento do braco: 
 
 Fim de jogo             -> 1.0 - Mensagens, placar e restart: 
-Movimento do oponente   -> 1.0 - Andar corretamente: 
+Movimento do oponente   -> 1.0 - Andar corretamente: ok
                            1.0 - Atirar corretamente: 
