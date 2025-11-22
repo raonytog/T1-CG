@@ -10,10 +10,12 @@
 
 class Character {
     int forwardLeg;
+    int delayToChangeLeg;
     Position *center;
     GLfloat R,G,B,
             directionAngle,
             armAngle;
+
 
 
 private:
@@ -29,16 +31,20 @@ public:
     void moveForward(GLfloat aceleration);
     void rotateHead(GLfloat inc);
     void rotateArm(GLfloat inc);
+    void changeForwardLeg();
+    void updateStepAnimation();
 
     /** getters */
     Position* getCenter();
     GLint getRadius();
     GLfloat getDirectionAngle();
     GLfloat getArmAngle();
+    int getForwardLeg();
 
 
     /** setters */
     void setDirection(GLfloat direction);
+
 
 };
 

@@ -110,6 +110,7 @@ void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
     
     /** se chegou aqui, nao houve colisao, .: move */
     p->moveForward(accelaration);
+    p->updateStepAnimation();
     delete newPos;
 }
 

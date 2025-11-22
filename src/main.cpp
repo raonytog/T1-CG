@@ -16,7 +16,7 @@ using namespace tinyxml2;
 #include "../includes/character.h"
 #include "../includes/shot.h"
 
-#define INC_KEY 5
+#define INC_KEY 1
 
 Map *mapa = nullptr;
 Character *p1 = nullptr,
@@ -147,7 +147,6 @@ void ResetKeyStatus() {
 
 void idle(void) {
 
-    
     if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
     if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
     if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
@@ -217,7 +216,6 @@ void parse(const char *svgPath) {
     }
 
     fixChractersDirection();
-
     mapa->addObstacleList(obstaculos);
     mapa->setCharacters(p1, p2);
 }

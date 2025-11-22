@@ -4,6 +4,8 @@
 #define LEFT 0
 #define RIGHT 1
 
+#define DELAY 20
+
 /** PRIVATE METHODS */
 void Character::drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     glPointSize(1.0);
@@ -98,13 +100,15 @@ void Character::drawCharacter() {
         // pernas
         // direita
         glPushMatrix();
-            glTranslatef(radius*0.75, radius*0.25, 0);
+            if (this->getForwardLeg() == RIGHT) { glTranslatef(radius*0.75, radius*0.25, 0); }
+            else { glTranslatef(radius*0.75, -radius*1.25, 0); }
             this->drawLeg(radius/4, radius, R,G,B);
         glPopMatrix();
 
         // esquerda
         glPushMatrix();
-            glTranslatef(-radius*0.75, -radius*1.25, 0);
+            if (this->getForwardLeg() == RIGHT) { glTranslatef(-radius*0.75, -radius*1.25, 0); }
+            else { glTranslatef(-radius*0.75, radius*0.25, 0); }
             this->drawLeg(radius/4, radius, R,G,B);
         glPopMatrix();
         
@@ -137,6 +141,7 @@ Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, 
     this->directionAngle = direction;
     this->armAngle = 0;
     this->forwardLeg = RIGHT;
+    this->delayToChangeLeg = 0;
 }
 
 void Character::draw() {
@@ -155,6 +160,20 @@ void Character::moveForward(GLfloat aceleration) {
 
 void Character::rotateHead(GLfloat inc) {
     this->directionAngle += inc;
+}
+
+void Character::changeForwardLeg() {
+    if (this->getForwardLeg() == LEFT) this->forwardLeg = RIGHT;
+    else this->forwardLeg = LEFT;
+}
+
+void Character::updateStepAnimation() {
+    this->delayToChangeLeg++;
+
+    if (this->delayToChangeLeg >= DELAY) {
+        this->changeForwardLeg();
+        this->delayToChangeLeg = 0;
+    }
 }
 
 void Character::rotateArm(GLfloat inc) {
@@ -178,6 +197,10 @@ GLfloat Character::getDirectionAngle() {
 
 GLfloat Character::getArmAngle() {
     return this->armAngle;
+}
+
+int Character::getForwardLeg() {
+    return this->forwardLeg;
 }
 
 void Character::setDirection(GLfloat direction) {
