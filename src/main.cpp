@@ -35,7 +35,6 @@ void mouseClick(int button, int state, int x, int y);
 void renderScene();
 void keyup(unsigned char key, int x, int y);
 void keyPress(unsigned char key, int x, int y);
-void keyPressSpecial(int key, int x, int y);
 void ResetKeyStatus();
 void idle(void);
 void fixChractersDirection();
@@ -55,7 +54,6 @@ int main(int argc, char *argv[]) {
     /** callbacks */
     glutDisplayFunc(renderScene);
     glutKeyboardFunc(keyPress);
-    glutSpecialFunc(keyPressSpecial);
     glutIdleFunc(idle);
     glutKeyboardUpFunc(keyup);
     glutMouseFunc(mouseClick);
@@ -110,19 +108,6 @@ void keyup(unsigned char key, int x, int y) {
     keyStatus[(int)(key)] = 0;
     glutPostRedisplay();
 }
-
-void keyPressSpecial(int key, int x, int y) {
-    switch (key) {
-        case GLUT_KEY_F1:
-            keyStatus[112] = 1;
-            break;
-
-        case GLUT_KEY_F2:
-            keyStatus[113] = 1;
-            break;
-    }
-}
-
 
 void keyPress(unsigned char key, int x, int y) {
     switch (key) {
@@ -190,9 +175,18 @@ void keyPress(unsigned char key, int x, int y) {
             keyStatus[(int)('6')] = 1;
             break;
 
+        /** debug */
         case 'R':
         case 'r':
             keyStatus[(int)('r')] = 1;
+            break;
+
+        case '1':
+            keyStatus[(int)('1')] = 1;
+            break;
+
+        case '2':
+            keyStatus[(int)('2')] = 1;
             break;
     }
 }
@@ -220,11 +214,10 @@ void idle(void) {
     // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); } /** atira */
     if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); } /** roda braco */
 
-
     /** debug */
     if (keyStatus[(int)('r')]) { keyStatus[(int)('r')] = 0; restart(); }
-    if (keyStatus[112]) { keyStatus[112] = 0; p1->decreaseLife(); }
-    if (keyStatus[113]) { keyStatus[113] = 0; p2->decreaseLife(); }
+    if (keyStatus[(int)('1')]) { keyStatus[(int)('1')] = 0; p1->decreaseLife(); }
+    if (keyStatus[(int)('2')]) { keyStatus[(int)('2')] = 0; p2->decreaseLife(); }
 
     glutPostRedisplay();
 }
