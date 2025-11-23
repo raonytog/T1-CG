@@ -98,10 +98,8 @@ void mouseMotion(int x, int y) {
 
 void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT);
-
     mapa->draw();
-
-    glutSwapBuffers(); // Desenha the new frame of the game.
+    glutSwapBuffers();
 }
 
 void keyup(unsigned char key, int x, int y) {
@@ -112,7 +110,6 @@ void keyup(unsigned char key, int x, int y) {
 void keyPress(unsigned char key, int x, int y) {
     switch (key) {
         /** player 1 */
-        /** movimentacao */
         case 'w':
         case 'W':
             keyStatus[(int)('w')] = 1;
@@ -133,14 +130,11 @@ void keyPress(unsigned char key, int x, int y) {
             keyStatus[(int)('d')] = 1;
             break;
 
-        /** atirar */
-        case GLUT_LEFT_BUTTON:
-
-        // mover horiozontal esquerda <
-        // mover horizontal direita >
+        /**  mover horiozontal esquerda < */
+        case GLUT_LEFT_BUTTON: /** atira */
+        /** mover horizontal direita > */
 
         /** player 2 */
-        /** movimentacao */
         case 'o':
         case 'O':
             keyStatus[(int)('o')] = 1;
@@ -161,31 +155,31 @@ void keyPress(unsigned char key, int x, int y) {
             keyStatus[231] = 1;
             break;
 
-        /** atirar */
-        case '5':
-            keyStatus[(int)('5')] = 1;
-            break;
-
-        /** mover braco */
-        case '4': //left
+        case '4': /** move braco esquerda */
             keyStatus[(int)('4')] = 1;
             break;
+
+        case '5': /** atira */
+            keyStatus[(int)('5')] = 1;
+            break;
         
-        case '6': //right
+        case '6': /** move braco direita */
             keyStatus[(int)('6')] = 1;
             break;
 
+
+        
         /** debug */
         case 'R':
-        case 'r':
+        case 'r': /** reseta o jogo */
             keyStatus[(int)('r')] = 1;
             break;
 
-        case '1':
+        case '1': /** tira uma vida de p1 */
             keyStatus[(int)('1')] = 1;
             break;
 
-        case '2':
+        case '2': /** tira uma vida de p2 */
             keyStatus[(int)('2')] = 1;
             break;
     }
@@ -198,21 +192,21 @@ void ResetKeyStatus() {
 }
 
 void idle(void) {
-    if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); } /** roda cabeca */
-    if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); } /** roda cabeca */
-    if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); } /** anda p frente */
-    if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); } /** anda p tras */
+    if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
+    if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
+    if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
+    if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); }
     /** roda braco com mouse */
     /** atira com mouse */
     /** roda braco com mouse */
     
-    if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); } /** roda cabeca */
-    if (keyStatus[231])        { p2->rotateHead(+INC_KEY); } /** roda cabeca */
-    if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); } /** anda p frente */
-    if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); } /** anda p tras */
-    if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); } /** roda braco */
+    if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); }
+    if (keyStatus[231])        { p2->rotateHead(+INC_KEY); }
+    if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
+    if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
+    if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); }
     // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); } /** atira */
-    if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); } /** roda braco */
+    if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); }
 
     /** debug */
     if (keyStatus[(int)('r')]) { keyStatus[(int)('r')] = 0; restart(); }
@@ -223,16 +217,16 @@ void idle(void) {
 }
 
 /**
- * @brief Essa função faz os personagens serem inicializados olhando um para o outro
+ * @brief Inicializa os personagens olhando um para o outro
  */
 void fixChractersDirection() {
     GLfloat x1 = p1->getCenter()->getX(), y1 = p1->getCenter()->getY(),
             x2 = p2->getCenter()->getX(), y2 = p2->getCenter()->getY();
 
-    GLfloat dx = x2 - x1,
-            dy = y2 - y1;
+    GLfloat dx = x2-x1,
+            dy = y2-y1;
 
-    GLfloat angleInDegrees = atan2(dy, dx) * 180.0 / M_PI;
+    GLfloat angleInDegrees = atan2(dy,dx)*180/M_PI;
 
     p1->setDirection(angleInDegrees);
     p2->setDirection(angleInDegrees+180);
@@ -240,7 +234,7 @@ void fixChractersDirection() {
 
 /**
  * @brief Popula o sistema com o mapa, obstaculos e personagens do jogo
- * @param *svgPath é o ponteiro para o caminho do arquvio SVG
+ * @param *svgPath é o ponteiro para o caminho do arquvio SVG, contendo as posicoes inicias de cada objeto
  */
 void parse(const char *svgPath) {
     XMLDocument doc;    XMLError eResult = doc.LoadFile(svgPath);
@@ -271,9 +265,10 @@ void parse(const char *svgPath) {
         elemento = elemento->NextSiblingElement("circle");
     }
 
-    fixChractersDirection();
     mapa->addObstacleList(obstaculos);
     mapa->setCharacters(p1, p2);
+
+    fixChractersDirection();
 }
 
 void init(const char *svgPath) {
@@ -284,7 +279,7 @@ void init(const char *svgPath) {
 
     if (mapa == nullptr) {
         cout << "ERRO: A arena não criada." << endl;
-        return; 
+        return;
     }
 
     GLfloat cx = mapa->getCenter()->getX(),

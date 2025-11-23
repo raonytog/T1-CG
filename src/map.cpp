@@ -5,6 +5,8 @@
 
 /** PRIVATE METHODS */
 void Map::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
+    if (radius <= 0) return;
+
     glPointSize(1.0);
     glColor3f(R, G, B);
     
@@ -31,9 +33,7 @@ void Map::drawBase() {
 }
 
 void Map::drawObstacles() {
-    for (Obstacle *obstaculo : *this->obstacles) {
-        obstaculo->draw();
-    }
+    for (Obstacle *obstaculo : *this->obstacles) { obstaculo->draw(); }
 }
 
 void Map::drawCharacters() {
@@ -139,19 +139,21 @@ void Map::addObstacleList(list<Obstacle*> *obstacleList) {
 }
 
 void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
-    GLfloat rad = p->getDirectionAngle() * M_PI / 180.0;
+    if (p == nullptr) return;
+
     GLint charRadius = p->getRadius();
     
-    GLfloat currentX = p->getCenter()->getX();
-    GLfloat currentY = p->getCenter()->getY();
-
-    GLfloat dx = accelaration * cos(rad);
-    GLfloat dy = accelaration * sin(rad);
+    GLfloat rad = p->getDirectionAngle() * M_PI / 180.0,
+            currentX = p->getCenter()->getX(),
+            currentY = p->getCenter()->getY(),
+            dx = accelaration * cos(rad),
+            dy = accelaration * sin(rad);
 
     Position* newPos = new Position(currentX + dx, currentY + dy, charRadius);
 
-    /** analisa quem é o oponente, p1 ou p2 */
-    Character* oponente = (player == PLAYER1) ? this->getPlayerTwo() : this->getPlayerOne();
+    Character* oponente = nullptr;
+    if (player == PLAYER1) oponente = this->getPlayerTwo();
+    else                   oponente = this->getPlayerOne();
 
     /** verifica colisao com outro player */
     GLint sumRadius = charRadius * 2;
@@ -182,8 +184,7 @@ Position* Map::getCenter() {
 
 void Map::setCharacters(Character *p1, Character *p2) {
     if (p1 == nullptr or p2 == nullptr) return;
-    this->p1 = p1;
-    this->p2 = p2;
+    this->p1 = p1;       this->p2 = p2;
 }
 
 Character* Map::getPlayerOne() {

@@ -2,6 +2,8 @@
 
 /** PRIVATE METHODS */
 void Obstacle::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
+    if (radius <= 0) return;
+    
     glPointSize(1.0);
     glColor3f(R, G, B);
     

@@ -8,8 +8,9 @@
 /** qtd de frames para desenhar a troca de pernas */
 #define DELAY 20
 
-/** PRIVATE METHODS */
 void Character::drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
+    if (radius <= 0) return;
+    
     glPointSize(1.0);
     glColor3f(R, G, B);
     
@@ -33,6 +34,8 @@ void Character::drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
 }
 
 void Character::drawTorso(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
+    if (radius <= 0) return;
+
     glPointSize(1.0);
     glColor3f(R,G,B);
     
@@ -56,6 +59,8 @@ void Character::drawTorso(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
 }
 
 static void drawRect(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B) {
+    if (width < 0 or height < 0) return;
+
     glPointSize(1.0);
     glColor3f(R,G,B);
     
@@ -78,10 +83,12 @@ static void drawRect(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloa
 }
 
 void Character::drawArm(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B) {
+    if (width < 0 or height < 0) return;
     drawRect(width,height, this->R, this->G, this->B);
 }
 
 void Character::drawLeg(GLfloat width, GLfloat height, GLfloat R, GLfloat G, GLfloat B) {
+    if (width < 0 or height < 0) return;
     drawRect(width, height, 0,0,0);
 }
 
@@ -117,7 +124,6 @@ void Character::drawCharacter() {
             this->drawArm(radius/4, radius, R, G, B);
         glPopMatrix();
         
-        
         // torso
         this->drawTorso(radius, R, G, B);
         
@@ -126,7 +132,6 @@ void Character::drawCharacter() {
     
     glPopMatrix();
 }
-
 
 /** PUBLIC METHODS */
 Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, GLfloat B) { 
@@ -162,22 +167,23 @@ void Character::rotateHead(GLfloat inc) {
 }
 
 void Character::changeForwardLeg() {
-    if (this->getForwardLeg() == LEFT) this->forwardLeg = RIGHT;
-    else this->forwardLeg = LEFT;
+    if (this->getForwardLeg() == LEFT)  this->forwardLeg = RIGHT;
+    else                                this->forwardLeg = LEFT;
 }
 
 void Character::updateStepAnimation() {
     this->delayToChangeLeg++;
+    if (this->delayToChangeLeg < DELAY) return;
 
-    if (this->delayToChangeLeg >= DELAY) {
-        this->changeForwardLeg();
-        this->delayToChangeLeg = 0;
-    }
+    this->changeForwardLeg();
+    this->delayToChangeLeg = 0;
 }
 
 void Character::decreaseLife() {
     this->life--;
-    if (this->life < 0) this->life = 0;
+
+    if (this->life >= 0) return;
+    else this->life = 0;
 }
 
 void Character::rotateArm(GLfloat inc) {
