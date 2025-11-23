@@ -32,6 +32,7 @@ public:
     void rotateArm(GLfloat inc);
     void changeForwardLeg();
     void updateStepAnimation();
+    void decreaseLife();
 
     /** getters */
     Position* getCenter();

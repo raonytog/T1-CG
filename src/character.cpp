@@ -175,6 +175,11 @@ void Character::updateStepAnimation() {
     }
 }
 
+void Character::decreaseLife() {
+    this->life--;
+    if (this->life < 0) this->life = 0;
+}
+
 void Character::rotateArm(GLfloat inc) {
     GLfloat newAngle = this->armAngle+inc;
     if      (newAngle < -45) this->armAngle = -45;
