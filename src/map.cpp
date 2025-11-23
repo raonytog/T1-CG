@@ -41,9 +41,66 @@ void Map::drawCharacters() {
     this->p2->draw();
 }
 
-void Map::drawMap() {
+void Map::drawHearth(GLfloat x, GLfloat y, GLfloat scale, GLfloat R, GLfloat G, GLfloat B) {
+    glColor3f(R, G, B);
+    glBegin(GL_TRIANGLE_FAN);
+
+    glVertex2f(x, y);
+
+    for (float t = 0.0f; t <= 2 * M_PI; t += 0.01f) {
+        float x_t = 16 * powf(sinf(t), 3);
+        float y_t = 13 * cosf(t) - 5 * cosf(2*t) - 2 * cosf(3*t) - cosf(4*t);
+
+        float px = x + x_t * scale;
+        float py = y - y_t * scale;
+
+        glVertex2f(px, py);
+    }
+
+    float x_t_start = 16*powf(sinf(0.0), 3);
+    float y_t_start = 13*cosf(0.0) - 5 * cosf(0.0f * 2) - 2 * cosf(0.0f * 3) - cosf(0.0f * 4);
+    glVertex2f(x + x_t_start * scale, y - y_t_start * scale);
+
+    glEnd();
+}
+
+static void drawText(float x, float y, const char* text, GLfloat R, GLfloat G, GLfloat B) {
+    glColor3f(R,G,B);
+    glRasterPos2f(x, y);
+    while (*text) {
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *text);
+        ++text;
+    }
+}
+
+void Map::drawScoreboard() {
     glPushMatrix();
 
+    GLfloat cx = this->getCenter()->getX(),
+            cy = this->getCenter()->getY(),
+            r = this->getCenter()->getRadius(),
+            x = cx-r+sqrt(r),
+            y = cx-r+sqrt(r);
+            
+    /** player 1 */
+    drawText(x, y+2*sqrt(r), "Player 1", 1,0,0);
+    for (int i = 0; i < this->getPlayerOne()->getLife(); i++, x+=2*sqrt(r)) {
+        this->drawHearth(x, y, 1, 1,0,0);
+    }
+
+    /** player 2 */
+    x = cx+r-sqrt(r);
+    drawText(x-4.4*sqrt(r), y+2*sqrt(r), "Player 2", 1,0,0);
+    for (int i = 0; i < this->getPlayerTwo()->getLife(); i++, x-=2*sqrt(r)) {
+        this->drawHearth(x, y, 1, 1,0,0);
+    }
+
+    glPopMatrix();
+}
+
+void Map::drawMap() {
+    glPushMatrix();
+    
     this->drawBase();
     this->drawObstacles();
     this->drawCharacters();
@@ -53,6 +110,7 @@ void Map::drawMap() {
 
 void Map::draw() {
     this->drawMap();
+    this->drawScoreboard();
 }
 
 /** PUBLIC METHODS */
@@ -112,10 +170,6 @@ void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
     p->moveForward(accelaration);
     p->updateStepAnimation();
     delete newPos;
-}
-
-void Map::rotateCharacter(Character *p) {
-
 }
 
 GLint Map::getRadius() {

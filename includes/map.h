@@ -25,6 +25,8 @@ private:
     void drawBase();
     void drawObstacles();
     void drawCharacters();
+    void drawHearth(GLfloat x, GLfloat y, GLfloat scale, GLfloat R, GLfloat G, GLfloat B);
+    void drawScoreboard();
     void drawMap();
 
 public:
@@ -41,6 +43,7 @@ public:
     Character* getPlayerOne();
     Character* getPlayerTwo();
     list<Obstacle*>* getObstacles();
+    
 
     /** setters */
     void setCharacters(Character *p1, Character *p2);

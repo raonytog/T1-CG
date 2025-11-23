@@ -67,47 +67,27 @@ int main(int argc, char *argv[]) {
 }
 
 void restart() {
-    if (mapa) {
-        list<Obstacle*>* obsList = mapa->getObstacles();
-        for (Obstacle* obs : *obsList) {
-            delete obs;
-        }
-        obsList->clear();
-        delete obsList;
+    if (mapa == nullptr) return;
 
-        delete p1->getCenter();
-        delete p1;
+    list<Obstacle*>* obsList = mapa->getObstacles();
+    for (Obstacle* obs : *obsList) { delete obs; }
+    obsList->clear();           delete obsList;
 
-        delete p2->getCenter();
-        delete p2;
-        
-        delete mapa->getCenter();
-        delete mapa;
+    delete p1->getCenter();     delete p1;
+    delete p2->getCenter();     delete p2;
+    delete mapa->getCenter();   delete mapa;
 
-        if (obstaculos) { obstaculos->clear(); }
-        
-        mapa = nullptr;
-        p1 = p2 = nullptr;
-    }
-
+    if (obstaculos) { obstaculos->clear(); }
+    
+    mapa = nullptr;
+    p1 = p2 = nullptr;
+    
     parse(path);
-
-    if (mapa == nullptr) {
-        cout << "ERRO: A arena não criada." << endl;
-        return;
-    }
-
-    GLfloat cx = mapa->getCenter()->getX();
-    GLfloat cy = mapa->getCenter()->getY();
-    GLfloat r = mapa->getRadius();
-
 }
 
 void mouseClick(int button, int state, int x, int y) {
-    if (state == GLUT_DOWN) {
-        if (button == GLUT_LEFT_BUTTON) mouseShootStatus = 1;
-        
-    } else mouseShootStatus = 0;
+    if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON) mouseShootStatus = 1;
+    else mouseShootStatus = 0;
 }
 
 void mouseMotion(int x, int y) {
@@ -209,21 +189,21 @@ void ResetKeyStatus() {
 }
 
 void idle(void) {
-    if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
-    if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
-    if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
-    if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); }
-    // if (keyStatus[(int)('4')]) { p1->rotateArm(-INC_KEY); }
-    // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
-    // if (keyStatus[(int)('6')]) { p1->rotateArm(+INC_KEY); }
+    if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); } /** roda cabeca */
+    if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); } /** roda cabeca */
+    if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); } /** anda p frente */
+    if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); } /** anda p tras */
+    /** roda braco com mouse */
+    /** atira com mouse */
+    /** roda braco com mouse */
     
-    if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); }
-    if (keyStatus[231])        { p2->rotateHead(+INC_KEY); }
-    if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
-    if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
-    if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); }
-    // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
-    if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); }
+    if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); } /** roda cabeca */
+    if (keyStatus[231])        { p2->rotateHead(+INC_KEY); } /** roda cabeca */
+    if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); } /** anda p frente */
+    if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); } /** anda p tras */
+    if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); } /** roda braco */
+    // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); } /** atira */
+    if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); } /** roda braco */
 
 
     if (keyStatus[(int)('r')]) { keyStatus[(int)('r')] = 0; restart(); }
@@ -296,9 +276,9 @@ void init(const char *svgPath) {
         return; 
     }
 
-    GLfloat cx = mapa->getCenter()->getX();
-    GLfloat cy = mapa->getCenter()->getY();
-    GLfloat r = mapa->getRadius();
+    GLfloat cx = mapa->getCenter()->getX(),
+            cy = mapa->getCenter()->getY(),
+            r = mapa->getRadius();
  
     glMatrixMode(GL_PROJECTION);
     glOrtho(cx-r, cx+r,
