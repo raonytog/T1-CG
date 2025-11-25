@@ -164,6 +164,8 @@ void Character::moveForward(GLfloat aceleration) {
 
 void Character::rotateHead(GLfloat inc) {
     this->directionAngle += inc;
+
+    if (this->directionAngle > 360) this->directionAngle = 0; 
 }
 
 void Character::changeForwardLeg() {

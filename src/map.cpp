@@ -77,7 +77,6 @@ void Map::drawScoreboard() {
     glPushMatrix();
 
     GLfloat cx = this->getCenter()->getX(),
-            cy = this->getCenter()->getY(),
             r = this->getCenter()->getRadius(),
             x = cx-r+sqrt(r),
             y = cx-r+sqrt(r);
@@ -99,13 +98,9 @@ void Map::drawScoreboard() {
 }
 
 void Map::drawMap() {
-    glPushMatrix();
-    
     this->drawBase();
     this->drawObstacles();
     this->drawCharacters();
-    
-    glPopMatrix();
 }
 
 void Map::draw() {
