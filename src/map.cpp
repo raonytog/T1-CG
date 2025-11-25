@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "../includes/map.h"
 #include "../includes/position.h"
@@ -106,6 +107,17 @@ void Map::drawMap() {
 void Map::draw() {
     this->drawMap();
     this->drawScoreboard();
+
+    Character* winner = isGameOver();
+
+    if (winner == nullptr) return;
+
+    Position *pos = this->getCenter();
+    string output = "";
+    if (winner == this->getPlayerOne()) output += "P1 wins";
+    else                                output += "P2 wins";
+    int adjust = 1/2 * output.length() * glutBitmapWidth(GLUT_BITMAP_HELVETICA_18, 'a');
+    drawText(pos->getX()-adjust, pos->getY(), (char*)output.c_str(), 1,0,0);
 }
 
 /** PUBLIC METHODS */
@@ -167,6 +179,18 @@ void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
     p->moveForward(accelaration);
     p->updateStepAnimation();
     delete newPos;
+}
+
+Character* Map::isGameOver() {
+    Character* winner = nullptr;
+    Character* p1 = this->getPlayerOne();
+    Character* p2 = this->getPlayerTwo();
+    
+    if (p1->isAlive() == false)         winner = p2;
+    else if (p2->isAlive() == false)    winner = p1;
+    else                                winner = nullptr;
+
+    return winner;
 }
 
 GLint Map::getRadius() {

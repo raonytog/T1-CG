@@ -33,6 +33,7 @@ public:
     void changeForwardLeg();
     void updateStepAnimation();
     void decreaseLife();
+    bool isAlive();
 
     /** getters */
     Position* getCenter();

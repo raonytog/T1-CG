@@ -28,6 +28,7 @@ const char *path = nullptr;
 
 int keyStatus[256];
 int mouseShootStatus = 0;
+int lastX = -1;
 
 void restart();
 void mouseMotion(int x, int y);
@@ -90,28 +91,27 @@ void mouseClick(int button, int state, int x, int y) {
     else mouseShootStatus = 0;
 }
 
-int lastX = -1;
 
 void mouseMotion(int x, int y) {
     if (lastX < 0) lastX = x;
     int dx = x - lastX;
 
-    /**  dx > 0 = movimento para direita */
-    /** dx < 0 = movimento para esquerda */ 
-    cout << p1->getDirectionAngle() << endl;
     if (p1->getDirectionAngle() >= 180 and p1->getDirectionAngle() < 360) dx = -dx;
     else if (p1->getDirectionAngle() >= 360) dx = x - lastX;
-
+    
+    /**  dx > 0 = movimento para direita */
     if (dx > 0)      p1->rotateArm(-INC_KEY);
+
+    /** dx < 0 = movimento para esquerda */ 
     else if (dx < 0) p1->rotateArm(+INC_KEY);
 
     lastX = x;
     glutPostRedisplay();
 }
 
-
 void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT);
+
     mapa->draw();
     glutSwapBuffers();
 }

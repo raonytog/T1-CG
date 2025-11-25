@@ -35,7 +35,7 @@ public:
     void addObstacle(Obstacle *obstacle);
     void addObstacleList(list<Obstacle*> *obstacleList);
     void moveCharacter(Character *p, int player, GLfloat accelaration);
-    void rotateCharacter(Character *p);
+    Character* isGameOver();
 
     /** getters */
     GLint getRadius();
@@ -47,8 +47,6 @@ public:
 
     /** setters */
     void setCharacters(Character *p1, Character *p2);
-
-
 };
 
 #endif

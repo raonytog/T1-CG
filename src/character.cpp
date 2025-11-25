@@ -149,7 +149,8 @@ Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, 
 }
 
 void Character::draw() {
-    this->drawCharacter();
+    if (this->life > 0) this->drawCharacter();
+    else return;
 }
 
 void Character::moveForward(GLfloat aceleration) {
@@ -186,6 +187,10 @@ void Character::decreaseLife() {
 
     if (this->life >= 0) return;
     else this->life = 0;
+}
+
+bool Character::isAlive() {
+    return this->life > 0;
 }
 
 void Character::rotateArm(GLfloat inc) {
