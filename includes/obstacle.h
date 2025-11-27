@@ -4,7 +4,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-/** arquivos autorais */
 #include "position.h"
 
 class Obstacle {
@@ -24,8 +23,6 @@ public:
     GLint getRadius();
     
     /** setters */
-    
-
 };
 
 #endif

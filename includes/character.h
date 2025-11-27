@@ -16,6 +16,7 @@ class Character {
     GLfloat R,G,B,
             directionAngle,
             armAngle;
+    Shot *shot;
 
 private:
     void drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B);

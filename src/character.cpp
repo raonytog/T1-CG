@@ -102,32 +102,33 @@ void Character::drawCharacter() {
         glTranslatef(x, y, 0);
         glRotatef(lookAngle-90, 0 ,0, 1);
         
-        // pernas
-        // direita
+
+        /** perna direita */
         glPushMatrix();
             if (this->getForwardLeg() == RIGHT) { glTranslatef(radius*0.75, radius*0.25, 0); }
             else { glTranslatef(radius*0.75, -radius*1.25, 0); }
             this->drawLeg(radius/4, radius, R,G,B);
         glPopMatrix();
 
-        // esquerda
+        /** perna esquerda */
         glPushMatrix();
             if (this->getForwardLeg() == RIGHT) { glTranslatef(-radius*0.75, -radius*1.25, 0); }
             else { glTranslatef(-radius*0.75, radius*0.25, 0); }
             this->drawLeg(radius/4, radius, R,G,B);
         glPopMatrix();
         
-        // braco
+        /** braco */
         glPushMatrix();
             glTranslatef(-radius*2, 0, 0);
             glRotatef(armAngle, 0, 0, 1);
             this->drawArm(radius/4, radius, R, G, B);
+            // logica pro desenho do tiro
         glPopMatrix();
         
-        // torso
+        /** torso */
         this->drawTorso(radius, R, G, B);
-        
-        // cabeca
+
+        /** cabeca */
         this->drawHead(radius, R, G, B);
     
     glPopMatrix();
@@ -146,6 +147,8 @@ Character::Character(Position *center, GLfloat direction, GLfloat R, GLfloat G, 
     this->armAngle = 0;
     this->forwardLeg = RIGHT;
     this->delayToChangeLeg = 0;
+
+    this->shot = nullptr;
 }
 
 void Character::draw() {
