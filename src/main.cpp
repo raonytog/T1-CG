@@ -22,6 +22,8 @@ Map *mapa = nullptr;
 Character *p1 = nullptr,
           *p2 = nullptr;
 list<Obstacle*> *obstaculos = new list<Obstacle*>();
+Shot *p1_shot = nullptr,
+     *p2_shot = nullptr;
 
 const GLint WINDOWS_SIZE = 500;
 const char *path = nullptr;
@@ -219,7 +221,7 @@ void idle(void) {
     if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
     if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
     if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); }
-    // if (keyStatus[(int)('5')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); } /** atira */
+    if (keyStatus[(int)('5')] and p2_shot == nullptr) { p2_shot = p2->shotProjectile(); } /** atira */
     if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); }
 
     /** debug */
@@ -227,6 +229,7 @@ void idle(void) {
     if (keyStatus[(int)('1')]) { keyStatus[(int)('1')] = 0; p1->decreaseLife(); }
     if (keyStatus[(int)('2')]) { keyStatus[(int)('2')] = 0; p2->decreaseLife(); }
 
+    
     glutPostRedisplay();
 }
 

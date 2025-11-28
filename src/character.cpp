@@ -102,7 +102,6 @@ void Character::drawCharacter() {
         glTranslatef(x, y, 0);
         glRotatef(lookAngle-90, 0 ,0, 1);
         
-
         /** perna direita */
         glPushMatrix();
             if (this->getForwardLeg() == RIGHT) { glTranslatef(radius*0.75, radius*0.25, 0); }
@@ -122,7 +121,6 @@ void Character::drawCharacter() {
             glTranslatef(-radius*2, 0, 0);
             glRotatef(armAngle, 0, 0, 1);
             this->drawArm(radius/4, radius, R, G, B);
-            // logica pro desenho do tiro
         glPopMatrix();
         
         /** torso */
@@ -194,6 +192,12 @@ void Character::decreaseLife() {
 
 bool Character::isAlive() {
     return this->life > 0;
+}
+
+// Em src/character.cpp
+
+Shot* Character::shotProjectile() {
+    
 }
 
 void Character::rotateArm(GLfloat inc) {

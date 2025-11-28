@@ -35,6 +35,7 @@ public:
     void updateStepAnimation();
     void decreaseLife();
     bool isAlive();
+    Shot* shotProjectile();
 
     /** getters */
     Position* getCenter();

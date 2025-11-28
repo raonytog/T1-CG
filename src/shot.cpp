@@ -26,14 +26,41 @@ Shot::Shot(Position *current, GLfloat directionAngle) {
 
 void Shot::move() {
     GLfloat new_x = this->speed * sin(this->directionAngle),
-            new_y = this->speed * cos(this->directionAngle);
+            new_y = this->speed * cos(this->directionAngle),
+            x = this->final->getX(), 
+            y = this->final->getY();
 
-    this->final->setX( new_x );
-    this->final->setY( new_y );
+    this->final->setX(x+new_x);
+    this->final->setY(y+new_y);
 }
 
-void Shot::draw() {
+void Shot::draw(GLfloat x, GLfloat y) {
+     glPushMatrix();
 
-    this->drawCircle(this->final->getRadius(), 1, 1, 1);
+    glTranslatef(x, y, 0);
+    this->drawCircle(this->final->getRadius(), 1.0f, 1.0f, 1.0f);
 
+    glPopMatrix();
+}
+
+bool Shot::isStillValid() {
+    GLfloat start_x = this->getStart()->getX(), start_y = this->getStart()->getY(),
+            final_x = this->getFinal()->getX(), final_y = this->getFinal()->getY();
+    return sqrt( pow((final_x - start_x), 2) + pow((final_y - start_y), 2));
+}
+
+GLfloat Shot::getDirectionAngle() {
+    return this->directionAngle;
+}
+
+GLfloat Shot::getSpeed() {
+    return this->speed;
+}
+
+Position* Shot::getStart() {
+    return this->start;
+}
+
+Position* Shot::getFinal() {
+    return this->final;
 }
