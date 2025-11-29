@@ -74,6 +74,21 @@ static void drawText(float x, float y, const char* text, GLfloat R, GLfloat G, G
     }
 }
 
+static void drawFade() {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glColor4f(0, 0, 0, 0.5f); // preto, 50%
+    glBegin(GL_QUADS);
+        glVertex2f(0, 0);
+        glVertex2f(2000, 0);
+        glVertex2f(2000, 2000);
+        glVertex2f(0, 2000);
+    glEnd();
+
+    glDisable(GL_BLEND);
+}
+
 void Map::drawScoreboard() {
     glPushMatrix();
 
@@ -117,6 +132,8 @@ void Map::draw() {
     if (winner == this->getPlayerOne()) output += "P1 wins";
     else                                output += "P2 wins";
     int adjust = 1/2 * output.length() * glutBitmapWidth(GLUT_BITMAP_HELVETICA_18, 'a');
+
+    drawFade();
     drawText(pos->getX()-adjust, pos->getY(), (char*)output.c_str(), 1,0,0);
 }
 

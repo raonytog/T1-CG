@@ -89,8 +89,13 @@ void restart() {
 }
 
 void mouseClick(int button, int state, int x, int y) {
-    if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON) mouseShootStatus = 1;
-    else mouseShootStatus = 0;
+    if (state == GLUT_DOWN) {
+        if (button == GLUT_LEFT_BUTTON && p1_shot == nullptr) {
+            p1_shot = p1->shotProjectile();
+            mouseShootStatus = 1;
+        }
+
+    } else mouseShootStatus = 0;
 }
 
 
@@ -115,6 +120,10 @@ void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT);
 
     mapa->draw();
+
+    if (p1_shot) { p1_shot->draw(); }
+    if (p2_shot) { p2_shot->draw(); }
+
     glutSwapBuffers();
 }
 
@@ -224,12 +233,15 @@ void idle(void) {
     if (keyStatus[(int)('5')] and p2_shot == nullptr) { p2_shot = p2->shotProjectile(); } /** atira */
     if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); }
 
+    /** tiros */
+    if (p1_shot) { p1_shot->move(); }
+    if (p2_shot) { p2_shot->move(); }
+
     /** debug */
     if (keyStatus[(int)('r')]) { keyStatus[(int)('r')] = 0; restart(); }
     if (keyStatus[(int)('1')]) { keyStatus[(int)('1')] = 0; p1->decreaseLife(); }
     if (keyStatus[(int)('2')]) { keyStatus[(int)('2')] = 0; p2->decreaseLife(); }
 
-    
     glutPostRedisplay();
 }
 

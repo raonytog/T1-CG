@@ -16,6 +16,15 @@ void Shot::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     glEnd();
 }
 
+void Shot::drawShot(GLfloat x, GLfloat y) {
+     glPushMatrix();
+
+    glTranslatef(x, y, 0);
+    this->drawCircle(this->final->getRadius(), 1.0f, 1.0f, 1.0f);
+
+    glPopMatrix();
+}
+
 /** PUBLIC METHODS */
 Shot::Shot(Position *current, GLfloat directionAngle) {
     this->start = nullptr;
@@ -34,19 +43,16 @@ void Shot::move() {
     this->final->setY(y+new_y);
 }
 
-void Shot::draw(GLfloat x, GLfloat y) {
-     glPushMatrix();
-
-    glTranslatef(x, y, 0);
-    this->drawCircle(this->final->getRadius(), 1.0f, 1.0f, 1.0f);
-
-    glPopMatrix();
-}
-
 bool Shot::isStillValid() {
     GLfloat start_x = this->getStart()->getX(), start_y = this->getStart()->getY(),
             final_x = this->getFinal()->getX(), final_y = this->getFinal()->getY();
     return sqrt( pow((final_x - start_x), 2) + pow((final_y - start_y), 2));
+}
+
+void Shot::draw() {
+    GLfloat x = this->getFinal()->getX(),
+            y = this->getFinal()->getY();
+    this->drawShot(x, y);
 }
 
 GLfloat Shot::getDirectionAngle() {

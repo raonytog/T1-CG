@@ -12,12 +12,12 @@ class Shot {
 
 private:
     void drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B);
-
+    void drawShot(GLfloat x, GLfloat y);
 public:
     Shot(Position *final, GLfloat directionAngle);
     void move();
-    void draw(GLfloat x, GLfloat y);
     bool isStillValid();
+    void draw();
 
     GLfloat getDirectionAngle();
     GLfloat getSpeed();

@@ -194,10 +194,39 @@ bool Character::isAlive() {
     return this->life > 0;
 }
 
-// Em src/character.cpp
+static void rotatePoint(GLfloat x, GLfloat y, GLfloat angle, GLfloat &xOut, GLfloat &yOut) {
+    GLfloat rad = angle * M_PI / 180.0;
+    xOut = x*cos(rad) - y*sin(rad);
+    yOut = x*sin(rad) + y*cos(rad);
+}
+
+
+static void translatePoint(GLfloat x, GLfloat y, GLfloat dx, GLfloat dy, GLfloat &xOut, GLfloat &yOut) {
+    xOut = x+dx;
+    yOut = y+dy;
+}
 
 Shot* Character::shotProjectile() {
-    
+    GLfloat x = this->getCenter()->getX(), 
+            y = this->getCenter()->getY();
+
+    GLfloat lookAngle = this->getDirectionAngle(), 
+            armAngle = this->getArmAngle();
+
+    GLint radius = this->getRadius();
+
+    /** direcao q o personagem aponta */
+    rotatePoint(x, y, lookAngle-90, x, y);
+
+    /** braco */
+    rotatePoint(x, y, armAngle, x, y);
+    translatePoint(x, y, -radius*2, 0, x, y);
+
+    Position *pos = new Position(x, y, 1); 
+    Shot *s = new Shot(pos, armAngle);
+    if (s != nullptr) std::cout << x << std::endl; 
+    if (s != nullptr) std::cout << y << std::endl; 
+    return s;
 }
 
 void Character::rotateArm(GLfloat inc) {
