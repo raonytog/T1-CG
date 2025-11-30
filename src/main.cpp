@@ -22,8 +22,7 @@ Map *mapa = nullptr;
 Character *p1 = nullptr,
           *p2 = nullptr;
 list<Obstacle*> *obstaculos = new list<Obstacle*>();
-Shot *p1_shot = nullptr,
-     *p2_shot = nullptr;
+Shot* shots[2];
 
 const GLint WINDOWS_SIZE = 500;
 const char *path = nullptr;
@@ -76,22 +75,26 @@ void restart() {
     for (Obstacle* obs : *obsList) { delete obs; }
     obsList->clear();           delete obsList;
 
+    for(int i=0; i<2; i++) { delete shots[i]; }
+
     delete p1->getCenter();     delete p1;
     delete p2->getCenter();     delete p2;
     delete mapa->getCenter();   delete mapa;
+    
 
     if (obstaculos) { obstaculos->clear(); }
     
     mapa = nullptr;
     p1 = p2 = nullptr;
+    shots[0] = shots[1] = nullptr;
     
     parse(path);
 }
 
 void mouseClick(int button, int state, int x, int y) {
     if (state == GLUT_DOWN) {
-        if (button == GLUT_LEFT_BUTTON && p1_shot == nullptr) {
-            p1_shot = p1->shotProjectile();
+        if (button == GLUT_LEFT_BUTTON && shots[0] == nullptr) {
+            shots[0] = p1->shotProjectile();
             mouseShootStatus = 1;
         }
 
@@ -121,8 +124,8 @@ void renderScene(void) {
 
     mapa->draw();
 
-    if (p1_shot) { p1_shot->draw(); }
-    if (p2_shot) { p2_shot->draw(); }
+    if (shots[0]) { shots[0]->draw(); }
+    if (shots[1]) { shots[1]->draw(); }
 
     glutSwapBuffers();
 }
@@ -230,12 +233,12 @@ void idle(void) {
     if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
     if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
     if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); }
-    if (keyStatus[(int)('5')] and p2_shot == nullptr) { p2_shot = p2->shotProjectile(); } /** atira */
+    if (keyStatus[(int)('5')] and shots[1] == nullptr) { shots[1] = p2->shotProjectile(); } /** atira */
     if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); }
 
     /** tiros */
-    if (p1_shot) { p1_shot->move(); }
-    if (p2_shot) { p2_shot->move(); }
+    if (shots[0]) { shots[0]->move(); }
+    if (shots[1]) { shots[1]->move(); }
 
     /** debug */
     if (keyStatus[(int)('r')]) { keyStatus[(int)('r')] = 0; restart(); }
@@ -310,6 +313,8 @@ void init(const char *svgPath) {
         cout << "ERRO: A arena não criada." << endl;
         return;
     }
+
+    shots[0] = shots[1] = nullptr;
 
     GLfloat cx = mapa->getCenter()->getX(),
             cy = mapa->getCenter()->getY(),

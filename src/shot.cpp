@@ -34,8 +34,8 @@ Shot::Shot(Position *current, GLfloat directionAngle) {
 }
 
 void Shot::move() {
-    GLfloat new_x = this->speed * sin(this->directionAngle),
-            new_y = this->speed * cos(this->directionAngle),
+    GLfloat new_x = this->speed * sin(this->directionAngle-90),
+            new_y = this->speed * cos(this->directionAngle-90),
             x = this->final->getX(), 
             y = this->final->getY();
 

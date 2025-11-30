@@ -207,25 +207,28 @@ static void translatePoint(GLfloat x, GLfloat y, GLfloat dx, GLfloat dy, GLfloat
 }
 
 Shot* Character::shotProjectile() {
-    GLfloat x = this->getCenter()->getX(), 
-            y = this->getCenter()->getY();
-
-    GLfloat lookAngle = this->getDirectionAngle(), 
+    GLfloat cx = this->getCenter()->getX(), 
+            cy = this->getCenter()->getY(), 
+            lookAngle = this->getDirectionAngle();
             armAngle = this->getArmAngle();
 
     GLint radius = this->getRadius();
 
-    /** direcao q o personagem aponta */
-    rotatePoint(x, y, lookAngle-90, x, y);
+    GLfloat px = 0, 
+            py =  (GLfloat)radius;
 
-    /** braco */
-    rotatePoint(x, y, armAngle, x, y);
-    translatePoint(x, y, -radius*2, 0, x, y);
+    /** relativo ao braco */
+    rotatePoint(px, py, armAngle, px, py);
+    translatePoint(px, py, -2*radius, 0, px, py);
 
-    Position *pos = new Position(x, y, 1); 
+    /** relativo ao corpo do personagem */
+    rotatePoint(px, py, directionAngle-90, px, py);
+    translatePoint(px, py, cx, cy, px, py);
+
+    GLfloat totalAngleDegree = directionAngle + armAngle;
+
+    Position *pos = new Position(px, py, 5); 
     Shot *s = new Shot(pos, armAngle);
-    if (s != nullptr) std::cout << x << std::endl; 
-    if (s != nullptr) std::cout << y << std::endl; 
     return s;
 }
 
