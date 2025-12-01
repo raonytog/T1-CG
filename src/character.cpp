@@ -209,23 +209,23 @@ static void translatePoint(GLfloat x, GLfloat y, GLfloat dx, GLfloat dy, GLfloat
 Shot* Character::shotProjectile() {
     GLfloat cx = this->getCenter()->getX(), 
             cy = this->getCenter()->getY(), 
-            lookAngle = this->getDirectionAngle();
+            directionAngle = this->getDirectionAngle();
             armAngle = this->getArmAngle();
 
     GLint radius = this->getRadius();
 
-    GLfloat px = 0, 
-            py =  (GLfloat)radius;
+    GLfloat x = 0, 
+            y =  (GLfloat)radius;
 
     /** relativo ao braco */
-    rotatePoint(px, py, armAngle, px, py);
-    translatePoint(px, py, -2*radius, 0, px, py);
+    rotatePoint(x, y, armAngle, x, y);
+    translatePoint(x, y, -2*radius, 0, x, y);
 
     /** relativo ao corpo do personagem */
-    rotatePoint(px, py, directionAngle-90, px, py);
-    translatePoint(px, py, cx, cy, px, py);
+    rotatePoint(x, y, directionAngle-90, x, y);
+    translatePoint(x, y, cx, cy, x, y);
 
-    Position *pos = new Position(px, py, 5); 
+    Position *pos = new Position(x, y, 5); 
     Shot *s = new Shot(pos, directionAngle-armAngle);
     return s;
 }

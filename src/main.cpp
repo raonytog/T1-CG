@@ -124,8 +124,11 @@ void renderScene(void) {
 
     mapa->draw();
 
-    if (shots[0]) { shots[0]->draw(); }
-    if (shots[1]) { shots[1]->draw(); }
+    for (int i = 0; i < 2; i++) {
+        if (shots[i] == nullptr) continue;
+        if (shots[i]->isStillValid() == true) shots[i]->draw();
+        else shots[i] = nullptr;
+    }
 
     glutSwapBuffers();
 }

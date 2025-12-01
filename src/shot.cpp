@@ -1,5 +1,8 @@
 #include "../includes/shot.h"
 
+#define SPEED 10
+#define MAX_DISTANCE 500*500
+
 /** PRIVATE METHODS */
 void Shot::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     if (radius <= 0) return;
@@ -27,10 +30,11 @@ void Shot::drawShot(GLfloat x, GLfloat y) {
 
 /** PUBLIC METHODS */
 Shot::Shot(Position *current, GLfloat directionAngle) {
-    this->start = nullptr;
+
+    this->start = new Position(current->getX(), current->getY(), current->getRadius());
     this->final = current;
     this->directionAngle = directionAngle;
-    this->speed = 10;
+    this->speed = SPEED;
 }
 
 void Shot::move() {
@@ -46,8 +50,10 @@ void Shot::move() {
 
 bool Shot::isStillValid() {
     GLfloat start_x = this->getStart()->getX(), start_y = this->getStart()->getY(),
-            final_x = this->getFinal()->getX(), final_y = this->getFinal()->getY();
-    return sqrt( pow((final_x - start_x), 2) + pow((final_y - start_y), 2));
+            final_x = this->getFinal()->getX(), final_y = this->getFinal()->getY(),
+            dx = final_x - start_x,
+            dy = final_y - start_y;
+    return (pow(dx, 2)+pow(dy, 2)) < MAX_DISTANCE;
 }
 
 void Shot::draw() {
