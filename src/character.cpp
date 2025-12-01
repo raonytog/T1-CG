@@ -225,10 +225,8 @@ Shot* Character::shotProjectile() {
     rotatePoint(px, py, directionAngle-90, px, py);
     translatePoint(px, py, cx, cy, px, py);
 
-    GLfloat totalAngleDegree = directionAngle + armAngle;
-
     Position *pos = new Position(px, py, 5); 
-    Shot *s = new Shot(pos, armAngle);
+    Shot *s = new Shot(pos, directionAngle-armAngle);
     return s;
 }
 
