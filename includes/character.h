@@ -34,20 +34,20 @@ public:
     void changeForwardLeg();
     void updateStepAnimation();
     void decreaseLife();
-    bool isAlive();
+    bool isAlive() {  return this->life > 0; }
     Shot* shotProjectile();
 
     /** getters */
-    Position* getCenter();
-    GLint getRadius();
-    GLfloat getDirectionAngle();
-    GLfloat getArmAngle();
-    int getForwardLeg();
-    int getLife();
+    Position* getCenter() { return this->center; }
+    GLint getRadius() {  return this->getCenter()->getRadius(); }
+    GLfloat getDirectionAngle() { return this->directionAngle; }
+    GLfloat getArmAngle() {  return this->armAngle; }
+    int getForwardLeg() { return this->forwardLeg; }
+    int getLife() { return this->life; }
 
 
     /** setters */
-    void setDirection(GLfloat direction);
+    void setDirection(GLfloat direction) { this->directionAngle = direction; }
 
 
 };

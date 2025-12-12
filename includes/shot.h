@@ -19,10 +19,10 @@ public:
     bool isStillValid();
     void draw();
 
-    GLfloat getDirectionAngle();
-    GLfloat getSpeed();
-    Position* getStart();
-    Position* getFinal();
+    GLfloat getDirectionAngle() { return this->directionAngle; }
+    GLfloat getSpeed() { return this->speed; }
+    Position* getStart() { return this->start; }
+    Position* getFinal() { return this->final; }
 };
 
 #endif

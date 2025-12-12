@@ -61,19 +61,3 @@ void Shot::draw() {
             y = this->getFinal()->getY();
     this->drawShot(x, y);
 }
-
-GLfloat Shot::getDirectionAngle() {
-    return this->directionAngle;
-}
-
-GLfloat Shot::getSpeed() {
-    return this->speed;
-}
-
-Position* Shot::getStart() {
-    return this->start;
-}
-
-Position* Shot::getFinal() {
-    return this->final;
-}

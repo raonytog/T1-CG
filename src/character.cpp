@@ -190,10 +190,6 @@ void Character::decreaseLife() {
     else this->life = 0;
 }
 
-bool Character::isAlive() {
-    return this->life > 0;
-}
-
 static void rotatePoint(GLfloat x, GLfloat y, GLfloat angle, GLfloat &xOut, GLfloat &yOut) {
     GLfloat rad = angle * M_PI / 180.0;
     xOut = x*cos(rad) - y*sin(rad);
@@ -235,32 +231,4 @@ void Character::rotateArm(GLfloat inc) {
     if      (newAngle < -45) this->armAngle = -45;
     else if (newAngle > +45) this->armAngle = +45;
     else                     this->armAngle = newAngle;
-}
-
-Position* Character::getCenter() {
-    return this->center;
-}
-
-GLint Character::getRadius() {
-    return this->getCenter()->getRadius();
-}
-
-GLfloat Character::getDirectionAngle() {
-    return this->directionAngle;
-}
-
-GLfloat Character::getArmAngle() {
-    return this->armAngle;
-}
-
-int Character::getForwardLeg() {
-    return this->forwardLeg;
-}
-
-int Character::getLife() {
-    return this->life;
-}
-
-void Character::setDirection(GLfloat direction) {
-    this->directionAngle = direction;
 }

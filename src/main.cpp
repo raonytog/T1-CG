@@ -110,10 +110,10 @@ void mouseMotion(int x, int y) {
     else if (p1->getDirectionAngle() >= 360) dx = x - lastX;
     
     /**  dx > 0 = movimento para direita */
-    if (dx > 0)      p1->rotateArm(-INC_KEY);
+    if (dx > 0)      p1->rotateArm(+INC_KEY);
 
     /** dx < 0 = movimento para esquerda */ 
-    else if (dx < 0) p1->rotateArm(+INC_KEY);
+    else if (dx < 0) p1->rotateArm(-INC_KEY);
 
     lastX = x;
     glutPostRedisplay();
@@ -160,10 +160,6 @@ void keyPress(unsigned char key, int x, int y) {
         case 'D':
             keyStatus[(int)('d')] = 1;
             break;
-
-        /**  mover horiozontal esquerda < */
-        case GLUT_LEFT_BUTTON: /** atira */
-        /** mover horizontal direita > */
 
         /** player 2 */
         case 'o':
@@ -223,23 +219,31 @@ void ResetKeyStatus() {
 }
 
 void idle(void) {
-    if (keyStatus[(int)('a')]) { p1->rotateHead(-INC_KEY); }
-    if (keyStatus[(int)('d')]) { p1->rotateHead(+INC_KEY); }
+    /** arruma a diferenca de tempo de resposta entre maquinas diferentes */
+    static GLdouble previousTime = glutGet(GLUT_ELAPSED_TIME);
+    GLdouble currentTime, timeDiference;
+    currentTime = glutGet(GLUT_ELAPSED_TIME);
+    timeDiference = currentTime - previousTime;
+    previousTime = currentTime;
+
+    if (keyStatus[(int)('a')]) { p1->rotateHead(+INC_KEY); }
+    if (keyStatus[(int)('d')]) { p1->rotateHead(-INC_KEY); }
     if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
     if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); }
     /** roda braco com mouse */
     /** atira com mouse */
     /** roda braco com mouse */
     
-    if (keyStatus[(int)('k')]) { p2->rotateHead(-INC_KEY); }
-    if (keyStatus[231])        { p2->rotateHead(+INC_KEY); }
+    if (keyStatus[(int)('k')]) { p2->rotateHead(+INC_KEY); }
+    if (keyStatus[231])        { p2->rotateHead(-INC_KEY); }
     if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
     if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
-    if (keyStatus[(int)('4')]) { p2->rotateArm(-INC_KEY); }
+    if (keyStatus[(int)('4')]) { p2->rotateArm(+INC_KEY); }
     if (keyStatus[(int)('5')] and shots[1] == nullptr) { shots[1] = p2->shotProjectile(); } /** atira */
-    if (keyStatus[(int)('6')]) { p2->rotateArm(+INC_KEY); }
+    if (keyStatus[(int)('6')]) { p2->rotateArm(-INC_KEY); }
 
     /** tiros */
+    // alterar o move para receber o timeDiff para essas funcoes e mover do seguinte jeito: dist = vel * t
     if (shots[0]) { shots[0]->move(); }
     if (shots[1]) { shots[1]->move(); }
 
@@ -290,7 +294,7 @@ void parse(const char *svgPath) {
         string id = elemento->Attribute("id");
         string fill = elemento->Attribute("fill");
 
-        Position *pos = new Position(centerX, centerY, radius);
+        Position *pos = new Position(centerX, -centerY, radius);
 
         if      (fill == "black") { obstaculos->push_back( new Obstacle(pos, 0,0,0) ); } /* obstaculo*/
         else if (fill == "blue")  { mapa = new Map(pos, 0,0,1); }     /** mapa */
@@ -325,7 +329,7 @@ void init(const char *svgPath) {
  
     glMatrixMode(GL_PROJECTION);
     glOrtho(cx-r, cx+r,
-            cy+r, cy-r,
+            cy-r, cy+r,
             -100, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

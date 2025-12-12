@@ -19,8 +19,8 @@ public:
     void draw();
 
     /** getters */
-    Position* getCenter();
-    GLint getRadius();
+    Position* getCenter() { return this->center; }
+    GLint getRadius() {  return this->getCenter()->getRadius(); }
     
     /** setters */
 };

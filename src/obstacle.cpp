@@ -40,10 +40,3 @@ void Obstacle::draw() {
     this->drawObstacle();
 }
 
-Position* Obstacle::getCenter() {
-    return this->center;
-}
-
-GLint Obstacle::getRadius() {
-    return this->getCenter()->getRadius();
-}

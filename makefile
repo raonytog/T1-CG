@@ -10,11 +10,16 @@ LINKING = -lglut -lGL -lGLU
 TARGET = *
 
 all:
+	clear
 	$(CXX) $(CFLAGS) -o trabalhocg src/$(TARGET).cpp $(LINKING)
 
-run:
+a:
 	make all
 	./trabalhocg arena.svg
+
+b:
+	make all
+	./trabalhocg arena2.svg
 
 clean:
 	$(RM) $(TARGET)

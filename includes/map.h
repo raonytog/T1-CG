@@ -25,7 +25,7 @@ private:
     void drawBase();
     void drawObstacles();
     void drawCharacters();
-    void drawHearth(GLfloat x, GLfloat y, GLfloat scale, GLfloat R, GLfloat G, GLfloat B);
+    void drawHeart(GLfloat x, GLfloat y, GLfloat scale, GLfloat R, GLfloat G, GLfloat B);
     void drawScoreboard();
     void drawMap();
 
@@ -38,11 +38,11 @@ public:
     Character* isGameOver();
 
     /** getters */
-    GLint getRadius();
-    Position* getCenter();
-    Character* getPlayerOne();
-    Character* getPlayerTwo();
-    list<Obstacle*>* getObstacles();
+    GLint getRadius() { return this->getCenter()->getRadius(); }
+    Position* getCenter() {  return this->center; }
+    Character* getPlayerOne() {  return this->p1; }
+    Character* getPlayerTwo() { return this->p2; }
+    list<Obstacle*>* getObstacles() { return this->obstacles; }
     
 
     /** setters */

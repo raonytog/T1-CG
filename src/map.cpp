@@ -42,7 +42,7 @@ void Map::drawCharacters() {
     this->p2->draw();
 }
 
-void Map::drawHearth(GLfloat x, GLfloat y, GLfloat scale, GLfloat R, GLfloat G, GLfloat B) {
+void Map::drawHeart(GLfloat x, GLfloat y, GLfloat scale, GLfloat R, GLfloat G, GLfloat B) {
     glColor3f(R, G, B);
     glBegin(GL_TRIANGLE_FAN);
 
@@ -52,8 +52,8 @@ void Map::drawHearth(GLfloat x, GLfloat y, GLfloat scale, GLfloat R, GLfloat G, 
         float x_t = 16 * powf(sinf(t), 3);
         float y_t = 13 * cosf(t) - 5 * cosf(2*t) - 2 * cosf(3*t) - cosf(4*t);
 
-        float px = x + x_t * scale;
-        float py = y - y_t * scale;
+        float px = x - x_t * scale;
+        float py = y + y_t * scale;
 
         glVertex2f(px, py);
     }
@@ -93,21 +93,22 @@ void Map::drawScoreboard() {
     glPushMatrix();
 
     GLfloat cx = this->getCenter()->getX(),
+            cy = this->getCenter()->getY(),
             r = this->getCenter()->getRadius(),
             x = cx-r+sqrt(r),
-            y = cx-r+sqrt(r);
+            y = cy+r-sqrt(r);
             
     /** player 1 */
-    drawText(x, y+2*sqrt(r), "Player 1", 1,0,0);
+    drawText(x, y-sqrt(r), "Player 1", 1,0,0);
     for (int i = 0; i < this->getPlayerOne()->getLife(); i++, x+=2*sqrt(r)) {
-        this->drawHearth(x, y, 1, 1,0,0);
+        this->drawHeart(x, y-2.25*sqrt(r), 1, 1,0,0);
     }
 
     /** player 2 */
     x = cx+r-sqrt(r);
-    drawText(x-4.4*sqrt(r), y+2*sqrt(r), "Player 2", 1,0,0);
+    drawText(x-4.4*sqrt(r), y-sqrt(r), "Player 2", 1,0,0);
     for (int i = 0; i < this->getPlayerTwo()->getLife(); i++, x-=2*sqrt(r)) {
-        this->drawHearth(x, y, 1, 1,0,0);
+        this->drawHeart(x, y-2.25*sqrt(r), 1, 1,0,0);
     }
 
     glPopMatrix();
@@ -131,7 +132,7 @@ void Map::draw() {
     string output = "";
     if (winner == this->getPlayerOne()) output += "P1 wins";
     else                                output += "P2 wins";
-    int adjust = 1/2 * output.length() * glutBitmapWidth(GLUT_BITMAP_HELVETICA_18, 'a');
+    int adjust = 0.5 * output.length() * glutBitmapWidth(GLUT_BITMAP_HELVETICA_18, 'a');
 
     drawFade();
     drawText(pos->getX()-adjust, pos->getY(), (char*)output.c_str(), 1,0,0);
@@ -210,28 +211,8 @@ Character* Map::isGameOver() {
     return winner;
 }
 
-GLint Map::getRadius() {
-    return this->getCenter()->getRadius();
-}
-
-Position* Map::getCenter() {
-    return this->center;
-}
-
 void Map::setCharacters(Character *p1, Character *p2) {
     if (p1 == nullptr or p2 == nullptr) return;
     this->p1 = p1;       this->p2 = p2;
-}
-
-Character* Map::getPlayerOne() {
-    return this->p1;
-}
-
-Character* Map::getPlayerTwo() {
-    return this->p2;
-}
-
-list<Obstacle*>* Map::getObstacles() {
-    return this->obstacles;
 }
 

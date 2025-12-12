@@ -17,13 +17,13 @@ public:
     bool checkColision(Position *a, Position *b);
 
     /** getter */
-    GLfloat getX();
-    GLfloat getY();
-    GLint getRadius();
+    GLfloat getX() { return this->x; }
+    GLfloat getY() { return this->y; }
+    GLint getRadius() { return this->radius; }
 
     /** setters */
-    void setX(GLfloat dx);
-    void setY(GLfloat dy);
+    void setX(GLfloat dx) { this->x = dx; }
+    void setY(GLfloat dy) { this->y = dy; }
 };
 
 #endif

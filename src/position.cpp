@@ -9,26 +9,6 @@ Position::Position(GLfloat x, GLfloat y, GLint radius) {
 	this->radius = radius;
 }
 
-GLfloat Position::getX() {
-	return this->x;
-}
-
-GLfloat Position::getY() {
-	return this->y;
-}
-
-GLint Position::getRadius() {
-	return this->radius;
-}
-
-void Position::setX(GLfloat dx) {
-	this->x = dx;
-}
-
-void Position::setY(GLfloat dy) {
-	this->y = dy;
-}
-
 GLfloat Position::getDistancePoints(Position *b) {
 	GLfloat dx = this->getX() - b->getX();
 	GLfloat dy = this->getY() - b->getY();
