@@ -39,8 +39,9 @@ Shot::Shot(Position *current, GLfloat directionAngle) {
 void Shot::move(GLdouble correcao) {
     GLfloat directionAngle = this->getDirectionAngle(),
             speed = this->getSpeed(),
-            new_x = correcao * speed * sin((directionAngle-90)*M_PI/180),
-            new_y = correcao * speed * cos((directionAngle-90)*M_PI/180),
+            rad = directionAngle*M_PI/180,
+            new_x = correcao * speed * cos(rad),
+            new_y = correcao * speed * sin(rad),
             x = this->final->getX(), 
             y = this->final->getY();
 
