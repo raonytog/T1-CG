@@ -14,7 +14,6 @@ private:
 public:
     Position(GLfloat x, GLfloat y, GLint radius);
     GLfloat getDistancePoints(Position *b);
-    bool checkColision(Position *a, Position *b);
 
     /** getter */
     GLfloat getX() { return this->x; }

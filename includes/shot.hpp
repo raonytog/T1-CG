@@ -4,7 +4,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include "position.h"
+#include "position.hpp"
 
 class Shot {
     Position *final, *start;
@@ -15,8 +15,7 @@ private:
     void drawShot(GLfloat x, GLfloat y);
 public:
     Shot(Position *final, GLfloat directionAngle);
-    void move();
-    bool isStillValid();
+    void move(GLdouble correcao);
     void draw();
 
     GLfloat getDirectionAngle() { return this->directionAngle; }

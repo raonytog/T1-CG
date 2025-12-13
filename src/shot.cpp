@@ -1,7 +1,6 @@
-#include "../includes/shot.h"
+#include "../includes/shot.hpp"
 
-#define SPEED 10
-#define MAX_DISTANCE 500*500
+#define SPEED 2
 
 /** PRIVATE METHODS */
 void Shot::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
@@ -37,23 +36,16 @@ Shot::Shot(Position *current, GLfloat directionAngle) {
     this->speed = SPEED;
 }
 
-void Shot::move() {
-    GLfloat directionAngle = this->getDirectionAngle();
-    GLfloat new_x = this->speed * sin((directionAngle-90)*M_PI/180),
-            new_y = this->speed * cos((directionAngle-90)*M_PI/180),
+void Shot::move(GLdouble correcao) {
+    GLfloat directionAngle = this->getDirectionAngle(),
+            speed = this->getSpeed(),
+            new_x = correcao * speed * sin((directionAngle-90)*M_PI/180),
+            new_y = correcao * speed * cos((directionAngle-90)*M_PI/180),
             x = this->final->getX(), 
             y = this->final->getY();
 
-    this->final->setX(x+new_x);
-    this->final->setY(y+new_y);
-}
-
-bool Shot::isStillValid() {
-    GLfloat start_x = this->getStart()->getX(), start_y = this->getStart()->getY(),
-            final_x = this->getFinal()->getX(), final_y = this->getFinal()->getY(),
-            dx = final_x - start_x,
-            dy = final_y - start_y;
-    return (pow(dx, 2)+pow(dy, 2)) < MAX_DISTANCE;
+    this->final->setX( (x+new_x) );
+    this->final->setY( (y+new_y) );
 }
 
 void Shot::draw() {

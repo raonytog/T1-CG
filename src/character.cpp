@@ -1,4 +1,4 @@
-#include "../includes/character.h"
+#include "../includes/character.hpp"
 #include <iostream>
 
 /** qual perna ta na frente */
@@ -6,7 +6,7 @@
 #define RIGHT 1 
 
 /** qtd de frames para desenhar a troca de pernas */
-#define DELAY 20
+#define DELAY 40
 
 void Character::drawHead(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
     if (radius <= 0) return;
@@ -224,6 +224,18 @@ Shot* Character::shotProjectile() {
     Position *pos = new Position(x, y, 5); 
     Shot *s = new Shot(pos, directionAngle-armAngle);
     return s;
+}
+
+bool Character::hitControll(Shot *shot) {
+    Position *shot_pos = shot->getFinal(),
+             *char_pos = this->getCenter();
+
+    if (shot_pos->getDistancePoints(char_pos) <= this->getRadius()) {
+        this->decreaseLife();
+        return true;
+    }
+
+    return false;
 }
 
 void Character::rotateArm(GLfloat inc) {

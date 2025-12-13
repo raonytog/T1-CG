@@ -11,9 +11,9 @@ using namespace std;
 #define PLAYER2 1
 
 /** arquivos autorais */
-#include "character.h"
-#include "position.h"
-#include "obstacle.h"
+#include "character.hpp"
+#include "position.hpp"
+#include "obstacle.hpp"
 class Map {
     Position *center;
     GLfloat R, G, B;

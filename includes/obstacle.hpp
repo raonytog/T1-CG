@@ -4,7 +4,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include "position.h"
+#include "position.hpp"
+#include "shot.hpp"
 
 class Obstacle {
     Position *center;
@@ -17,6 +18,7 @@ private:
 public:
     Obstacle(Position *center,  GLfloat R, GLfloat G, GLfloat B);
     void draw();
+    bool hitControll(Shot *shot);
 
     /** getters */
     Position* getCenter() { return this->center; }

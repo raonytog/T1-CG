@@ -5,8 +5,8 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-#include "position.h"
-#include "shot.h"
+#include "position.hpp"
+#include "shot.hpp"
 
 class Character {
     int forwardLeg,
@@ -36,6 +36,7 @@ public:
     void decreaseLife();
     bool isAlive() {  return this->life > 0; }
     Shot* shotProjectile();
+    bool hitControll(Shot *shot);
 
     /** getters */
     Position* getCenter() { return this->center; }

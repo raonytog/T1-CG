@@ -9,12 +9,12 @@
 #include <string>
 using namespace std;
 
-#include "../includes/tinyxml2.h"
+#include "../includes/tinyxml2.hpp"
 using namespace tinyxml2;
 
-#include "../includes/map.h"
-#include "../includes/character.h"
-#include "../includes/shot.h"
+#include "../includes/map.hpp"
+#include "../includes/character.hpp"
+#include "../includes/shot.hpp"
 
 #define INC_KEY 1
 
@@ -123,10 +123,12 @@ void renderScene(void) {
     glClear(GL_COLOR_BUFFER_BIT);
 
     mapa->draw();
-
+    GLint mapRadius = mapa->getRadius();
     for (int i = 0; i < 2; i++) {
         if (shots[i] == nullptr) continue;
-        if (shots[i]->isStillValid() == true) shots[i]->draw();
+
+        
+        if (shots[i]->getFinal()->getDistancePoints(mapa->getCenter()) <= mapRadius) shots[i]->draw();
         else shots[i] = nullptr;
     }
 
@@ -242,15 +244,25 @@ void idle(void) {
     if (keyStatus[(int)('5')] and shots[1] == nullptr) { shots[1] = p2->shotProjectile(); } /** atira */
     if (keyStatus[(int)('6')]) { p2->rotateArm(-INC_KEY); }
 
-    /** tiros */
-    // alterar o move para receber o timeDiff para essas funcoes e mover do seguinte jeito: dist = vel * t
-    if (shots[0]) { shots[0]->move(); }
-    if (shots[1]) { shots[1]->move(); }
-
     /** debug */
     if (keyStatus[(int)('r')]) { keyStatus[(int)('r')] = 0; restart(); }
     if (keyStatus[(int)('1')]) { keyStatus[(int)('1')] = 0; p1->decreaseLife(); }
     if (keyStatus[(int)('2')]) { keyStatus[(int)('2')] = 0; p2->decreaseLife(); }
+
+    /** tiros */
+    for (int i = 0; i < 2; i++) { 
+        if (shots[i] == nullptr) continue; 
+        
+        // alterar o move para receber o timeDiff para essas funcoes e mover do seguinte jeito: dist = vel * t
+        cout << timeDiference << endl;
+        shots[i]->move( timeDiference );
+        if (p1->hitControll(shots[i])) { delete shots[i]; shots[i] = nullptr; continue; }
+        if (p2->hitControll(shots[i])) { delete shots[i]; shots[i] = nullptr; continue; }
+
+        for (Obstacle *o : *obstaculos) {
+            if (o->hitControll(shots[i])) { delete shots[i]; shots[i] = nullptr; break; }
+        }
+    }
 
     glutPostRedisplay();
 }

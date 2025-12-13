@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "../includes/map.h"
-#include "../includes/position.h"
+#include "../includes/map.hpp"
+#include "../includes/position.hpp"
 
 /** PRIVATE METHODS */
 void Map::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {

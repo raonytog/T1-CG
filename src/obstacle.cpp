@@ -1,4 +1,4 @@
-#include "../includes/obstacle.h"
+#include "../includes/obstacle.hpp"
 
 /** PRIVATE METHODS */
 void Obstacle::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {
@@ -38,5 +38,12 @@ Obstacle::Obstacle(Position *center, GLfloat R, GLfloat G, GLfloat B) {
 
 void Obstacle::draw() {
     this->drawObstacle();
+}
+
+bool Obstacle::hitControll(Shot *shot) {
+    Position *shot_pos = shot->getFinal(),
+             *char_pos = this->getCenter();
+
+    return shot_pos->getDistancePoints(char_pos) <= this->getRadius();
 }
 

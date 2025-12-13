@@ -1,4 +1,4 @@
-#include "../includes/position.h"
+#include "../includes/position.hpp"
 
 /** PRIVATE METHODS */
 
@@ -9,8 +9,8 @@ Position::Position(GLfloat x, GLfloat y, GLint radius) {
 	this->radius = radius;
 }
 
-GLfloat Position::getDistancePoints(Position *b) {
-	GLfloat dx = this->getX() - b->getX();
-	GLfloat dy = this->getY() - b->getY();
+GLfloat Position::getDistancePoints(Position *pos) {
+	GLfloat dx = this->getX() - pos->getX();
+	GLfloat dy = this->getY() - pos->getY();
 	return sqrt(dx*dx + dy*dy);
 }
