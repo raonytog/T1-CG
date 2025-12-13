@@ -1,6 +1,6 @@
 #include "../includes/shot.hpp"
 
-#define SPEED 2
+#define SPEED 1
 
 /** PRIVATE METHODS */
 void Shot::drawCircle(GLint radius, GLfloat R, GLfloat G, GLfloat B) {

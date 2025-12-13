@@ -31,6 +31,7 @@ int keyStatus[256];
 int mouseShootStatus = 0;
 int lastX = -1;
 
+bool someoneWon();
 void restart();
 void mouseMotion(int x, int y);
 void mouseClick(int button, int state, int x, int y);
@@ -66,6 +67,10 @@ int main(int argc, char *argv[]) {
     glutMainLoop();
  
     return 0;
+}
+
+bool someoneWon() {
+    return (p1->getLife() == 0 or p2->getLife() == 0);
 }
 
 void restart() {
@@ -109,11 +114,13 @@ void mouseMotion(int x, int y) {
     if (p1->getDirectionAngle() >= 180 and p1->getDirectionAngle() < 360) dx = -dx;
     else if (p1->getDirectionAngle() >= 360) dx = x - lastX;
     
-    /**  dx > 0 = movimento para direita */
-    if (dx > 0)      p1->rotateArm(+INC_KEY);
+    if (someoneWon() == false) {
+        /**  dx > 0 = movimento para direita */
+        if (dx > 0)      p1->rotateArm(+INC_KEY);
 
-    /** dx < 0 = movimento para esquerda */ 
-    else if (dx < 0) p1->rotateArm(-INC_KEY);
+        /** dx < 0 = movimento para esquerda */ 
+        else if (dx < 0) p1->rotateArm(-INC_KEY);
+    }
 
     lastX = x;
     glutPostRedisplay();
@@ -228,21 +235,23 @@ void idle(void) {
     timeDiference = currentTime - previousTime;
     previousTime = currentTime;
 
-    if (keyStatus[(int)('a')]) { p1->rotateHead(+INC_KEY); }
-    if (keyStatus[(int)('d')]) { p1->rotateHead(-INC_KEY); }
-    if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
-    if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); }
-    /** roda braco com mouse */
-    /** atira com mouse */
-    /** roda braco com mouse */
-    
-    if (keyStatus[(int)('k')]) { p2->rotateHead(+INC_KEY); }
-    if (keyStatus[231])        { p2->rotateHead(-INC_KEY); }
-    if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
-    if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
-    if (keyStatus[(int)('4')]) { p2->rotateArm(+INC_KEY); }
-    if (keyStatus[(int)('5')] and shots[1] == nullptr) { shots[1] = p2->shotProjectile(); } /** atira */
-    if (keyStatus[(int)('6')]) { p2->rotateArm(-INC_KEY); }
+    if (someoneWon() == false) {
+        if (keyStatus[(int)('a')]) { p1->rotateHead(+INC_KEY); }
+        if (keyStatus[(int)('d')]) { p1->rotateHead(-INC_KEY); }
+        if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
+        if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); }
+        /** roda braco com mouse */
+        /** atira com mouse */
+        /** roda braco com mouse */
+        
+        if (keyStatus[(int)('k')]) { p2->rotateHead(+INC_KEY); }
+        if (keyStatus[231])        { p2->rotateHead(-INC_KEY); }
+        if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
+        if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
+        if (keyStatus[(int)('4')]) { p2->rotateArm(+INC_KEY); }
+        if (keyStatus[(int)('5')] and shots[1] == nullptr) { shots[1] = p2->shotProjectile(); } /** atira */
+        if (keyStatus[(int)('6')]) { p2->rotateArm(-INC_KEY); }
+    }
 
     /** debug */
     if (keyStatus[(int)('r')]) { keyStatus[(int)('r')] = 0; restart(); }
@@ -254,7 +263,6 @@ void idle(void) {
         if (shots[i] == nullptr) continue; 
         
         // alterar o move para receber o timeDiff para essas funcoes e mover do seguinte jeito: dist = vel * t
-        cout << timeDiference << endl;
         shots[i]->move( timeDiference );
         if (p1->hitControll(shots[i])) { delete shots[i]; shots[i] = nullptr; continue; }
         if (p2->hitControll(shots[i])) { delete shots[i]; shots[i] = nullptr; continue; }
