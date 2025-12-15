@@ -196,13 +196,14 @@ void Character::decreaseLife() {
     else this->life = 0;
 }
 
+/** funcao auxiliar que realiza a rotacao similar ao glrotatef */
 static void rotatePoint(GLfloat x, GLfloat y, GLfloat angle, GLfloat &xOut, GLfloat &yOut) {
     GLfloat rad = angle * M_PI / 180.0;
     xOut = x*cos(rad) - y*sin(rad);
     yOut = x*sin(rad) + y*cos(rad);
 }
 
-
+/** funcao auxiliar que realiza a translacao similar ao gltranstef */
 static void translatePoint(GLfloat x, GLfloat y, GLfloat dx, GLfloat dy, GLfloat &xOut, GLfloat &yOut) {
     xOut = x+dx;
     yOut = y+dy;

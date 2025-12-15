@@ -17,7 +17,16 @@ private:
 
 public:
     Obstacle(Position *center,  GLfloat R, GLfloat G, GLfloat B);
+
+    /**
+     * @brief desenha um obstaculo
+     */
     void draw();
+
+    /**
+     * @brief Verifica se um tiro atingiu um obstaculo
+     * @param shot Tiro a analisar colisao
+     */
     bool hitControll(Shot *shot);
 
     /** getters */

@@ -13,12 +13,12 @@ private:
 
 public:
     Position(GLfloat x, GLfloat y, GLint radius);
-    GLfloat getDistancePoints(Position *b);
-
+    
     /** getter */
     GLfloat getX() { return this->x; }
     GLfloat getY() { return this->y; }
     GLint getRadius() { return this->radius; }
+    GLfloat getDistancePoints(Position *b);
 
     /** setters */
     void setX(GLfloat dx) { this->x = dx; }

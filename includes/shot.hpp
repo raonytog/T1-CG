@@ -15,8 +15,17 @@ private:
     void drawShot(GLfloat x, GLfloat y);
 public:
     Shot(Position *final, GLfloat directionAngle);
-    void move(GLdouble correcao);
+
+    /**
+     * @brief desenha o tiro
+     */
     void draw();
+
+    /**
+     * @brief movimenta o tiro
+     * @param correcao correcao com base no SO para a velocidade do tiro
+     */
+    void move(GLdouble correcao);
 
     GLfloat getDirectionAngle() { return this->directionAngle; }
     GLfloat getSpeed() { return this->speed; }

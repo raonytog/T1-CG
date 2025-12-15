@@ -31,20 +31,40 @@ private:
 
 public:
     Map(Position *center, GLfloat R, GLfloat G, GLfloat B);
-    void draw();
-    void addObstacle(Obstacle *obstacle);
-    void addObstacleList(list<Obstacle*> *obstacleList);
-    void moveCharacter(Character *p, int player, GLfloat accelaration);
-    Character* isGameOver();
 
+    /**
+     * @brief desenha o mapa com um campo, scoreboard, personagens e obstaculos
+     */
+    void draw();
+
+    /**
+     * @brief adiciona um obstaculo a lista de obstaculos do mapa
+     * @param obstacle obstaculo a ser adicionado
+     */
+    void addObstacle(Obstacle *obstacle);
+
+    /**
+     * @brief adiciona uma lista de obstaculos a lista de obstaculos do mapa
+     * @param obstacleList lista de obstaculos
+     */
+    void addObstacleList(list<Obstacle*> *obstacleList);
+
+    /**
+     * @brief movimento um personagem do mapa
+     * @param p personagem
+     * @param player qual player (0=p1, 1=p2)
+     * @param acceleration incremento do movimento
+     */
+    void moveCharacter(Character *p, int player, GLfloat accelaration);
+    
     /** getters */
     GLint getRadius() { return this->getCenter()->getRadius(); }
     Position* getCenter() {  return this->center; }
     Character* getPlayerOne() {  return this->p1; }
     Character* getPlayerTwo() { return this->p2; }
     list<Obstacle*>* getObstacles() { return this->obstacles; }
+    Character* isGameOver();
     
-
     /** setters */
     void setCharacters(Character *p1, Character *p2);
 };
