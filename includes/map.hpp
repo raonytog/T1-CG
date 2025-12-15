@@ -54,6 +54,7 @@ public:
      * @param p personagem
      * @param player qual player (0=p1, 1=p2)
      * @param acceleration incremento do movimento
+     * @param correcao correcao para as chamadas em SO diferentes
      */
     void moveCharacter(Character *p, int player, GLfloat accelaration, GLdouble correcao);
     

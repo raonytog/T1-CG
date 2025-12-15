@@ -194,7 +194,7 @@ void Map::moveCharacter(Character *p, int player, GLfloat accelaration, GLdouble
     if (newPos->getDistancePoints(this->getCenter()) + charRadius >= this->getRadius()) return;
     
     /** se chegou aqui, nao houve colisao, .: move */
-    p->moveForward(accelaration);
+    p->moveForward(accelaration*accelaration);
     p->updateStepAnimation();
     delete newPos;
 }

@@ -107,8 +107,6 @@ void Character::drawCharacter() {
             glRotatef(90, 0, 0, 1);
             if (this->getForwardLeg() == RIGHT) { glTranslatef(radius*0.75, -radius*1.25, 0); } 
             else { glTranslatef(radius*0.75, radius*0.25, 0); }
-            // if (this->getForwardLeg() == RIGHT) { glTranslatef(radius*0.75, radius*0.25, 0);
-            // else { glTranslatef(radius*0.75, -radius*1.25, 0); }
             this->drawLeg(radius/4, radius, R,G,B);
         glPopMatrix();
 
@@ -117,8 +115,6 @@ void Character::drawCharacter() {
             glRotatef(90, 0, 0, 1);
             if (this->getForwardLeg() == RIGHT) { glTranslatef(-radius*0.75, radius*0.25, 0); }
             else { glTranslatef(-radius*0.75, -radius*1.25, 0); }
-            // if (this->getForwardLeg() == RIGHT) { glTranslatef(-radius*0.75, -radius*1.25, 0); }
-            // else { glTranslatef(-radius*0.75, radius*0.25, 0); }
             this->drawLeg(radius/4, radius, R,G,B);
         glPopMatrix();
         
@@ -173,7 +169,8 @@ void Character::moveForward(GLfloat aceleration) {
 void Character::rotateHead(GLfloat inc) {
     this->directionAngle += inc;
 
-    if (this->directionAngle > 360) this->directionAngle = 0; 
+    if (this->directionAngle > 360) this->directionAngle = 0;
+    else if (this->directionAngle < 0) this->directionAngle = 360;
 }
 
 void Character::changeForwardLeg() {

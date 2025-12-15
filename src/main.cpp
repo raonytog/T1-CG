@@ -111,15 +111,23 @@ void mouseMotion(int x, int y) {
     if (lastX < 0) lastX = x;
     int dx = x - lastX;
 
-    if (p1->getDirectionAngle() >= 180 and p1->getDirectionAngle() < 360) dx = -dx;
-    else if (p1->getDirectionAngle() >= 360) dx = x - lastX;
+    GLfloat angle = p1->getDirectionAngle();
+    
+    // CORREÇÃO DA INVERSÃO: Inverte o movimento do mouse (dx) se o personagem estiver 
+    // virado para a metade esquerda da tela (entre 90.0f e 270.0f).
+    if (angle > 90.0f && angle < 270.0f) { 
+        dx = -dx;
+    } 
+    // A condição 'else if (angle >= 360)' foi removida, 
+    // pois o ângulo deve ser normalizado para [0, 360) em 'rotateHead'.
     
     if (someoneWon() == false) {
-        /**  dx > 0 = movimento para direita */
-        if (dx > 0)      p1->rotateArm(+INC_KEY);
+        // CORREÇÃO DA APLICAÇÃO:
+        // Mouse Direita (dx > 0) -> Gira Horário/Direita -> p1->rotateArm(-INC_KEY)
+        if (dx > 0)      p1->rotateArm(-INC_KEY);
 
-        /** dx < 0 = movimento para esquerda */ 
-        else if (dx < 0) p1->rotateArm(-INC_KEY);
+        // Mouse Esquerda (dx < 0) -> Gira Anti-Horário/Esquerda -> p1->rotateArm(+INC_KEY)
+        else if (dx < 0) p1->rotateArm(+INC_KEY);
     }
 
     lastX = x;
@@ -285,10 +293,14 @@ void fixChractersDirection() {
     GLfloat dx = x2-x1,
             dy = y2-y1;
 
-    GLfloat angleInDegrees = atan2(dy,dx)*180/M_PI;
+    GLfloat angleInDegrees = atan2(dy,dx) * 180/M_PI;
+    if (angleInDegrees < 0) angleInDegrees += 360;
 
     p1->setDirection(angleInDegrees);
-    p2->setDirection(angleInDegrees+180);
+
+    angleInDegrees += 180;
+    if (angleInDegrees > 360) angleInDegrees -= 360;
+    p2->setDirection(angleInDegrees);
 }
 
 /**

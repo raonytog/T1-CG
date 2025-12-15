@@ -36,6 +36,7 @@ public:
     /** 
      * @brief Trata movimento do personagem
      * @param aceleration o tanto que é incrementado no movimento
+     * @param correcao correcao para as chamadas em SO diferentes
      */
     void moveForward(GLfloat aceleration);
 
