@@ -98,7 +98,7 @@ void restart() {
 
 void mouseClick(int button, int state, int x, int y) {
     if (state == GLUT_DOWN) {
-        if (button == GLUT_LEFT_BUTTON && shots[0] == nullptr) {
+        if (button == GLUT_LEFT_BUTTON && shots[0] == nullptr && someoneWon() == false) {
             shots[0] = p1->shotProjectile();
             mouseShootStatus = 1;
         }
@@ -238,16 +238,16 @@ void idle(void) {
     if (someoneWon() == false) {
         if (keyStatus[(int)('a')]) { p1->rotateHead(+INC_KEY); }
         if (keyStatus[(int)('d')]) { p1->rotateHead(-INC_KEY); }
-        if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY); }
-        if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY); }
+        if (keyStatus[(int)('w')]) { mapa->moveCharacter(p1, PLAYER1, +INC_KEY, timeDiference); }
+        if (keyStatus[(int)('s')]) { mapa->moveCharacter(p1, PLAYER1, -INC_KEY, timeDiference); }
         /** roda braco com mouse */
         /** atira com mouse */
         /** roda braco com mouse */
         
         if (keyStatus[(int)('k')]) { p2->rotateHead(+INC_KEY); }
         if (keyStatus[231])        { p2->rotateHead(-INC_KEY); }
-        if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY); }
-        if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY); }
+        if (keyStatus[(int)('o')]) { mapa->moveCharacter(p2, PLAYER2, +INC_KEY, timeDiference); }
+        if (keyStatus[(int)('l')]) { mapa->moveCharacter(p2, PLAYER2, -INC_KEY, timeDiference); }
         if (keyStatus[(int)('4')]) { p2->rotateArm(+INC_KEY); }
         if (keyStatus[(int)('5')] and shots[1] == nullptr) { shots[1] = p2->shotProjectile(); } /** atira */
         if (keyStatus[(int)('6')]) { p2->rotateArm(-INC_KEY); }

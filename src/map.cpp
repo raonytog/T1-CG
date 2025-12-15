@@ -163,7 +163,7 @@ void Map::addObstacleList(list<Obstacle*> *obstacleList) {
     }
 }
 
-void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
+void Map::moveCharacter(Character *p, int player, GLfloat accelaration, GLdouble correcao) {
     if (p == nullptr) return;
 
     GLint charRadius = p->getRadius();
@@ -171,8 +171,8 @@ void Map::moveCharacter(Character *p, int player, GLfloat accelaration) {
     GLfloat rad = p->getDirectionAngle() * M_PI / 180.0,
             currentX = p->getCenter()->getX(),
             currentY = p->getCenter()->getY(),
-            dx = accelaration * cos(rad),
-            dy = accelaration * sin(rad);
+            dx = correcao * accelaration * cos(rad),
+            dy = correcao * accelaration * sin(rad);
 
     Position* newPos = new Position(currentX + dx, currentY + dy, charRadius);
 

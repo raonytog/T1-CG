@@ -55,7 +55,7 @@ public:
      * @param player qual player (0=p1, 1=p2)
      * @param acceleration incremento do movimento
      */
-    void moveCharacter(Character *p, int player, GLfloat accelaration);
+    void moveCharacter(Character *p, int player, GLfloat accelaration, GLdouble correcao);
     
     /** getters */
     GLint getRadius() { return this->getCenter()->getRadius(); }
