@@ -214,7 +214,7 @@ Shot* Character::shotProjectile() {
             directionAngle = this->getDirectionAngle();
             armAngle = this->getArmAngle();
 
-    GLint radius = this->getRadius(); 2*radius;
+    GLint radius = this->getRadius();
 
     GLfloat x = 0, 
             y =  (GLfloat)radius;
